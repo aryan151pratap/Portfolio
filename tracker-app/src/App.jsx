@@ -34,7 +34,7 @@ function App() {
     }
 
     check_auth();
-  }, [])
+  }, [sign])
 
   return (
     <>
