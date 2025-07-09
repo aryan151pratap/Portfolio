@@ -3,6 +3,7 @@ import Bar_Chart from '../graph/Bar_Chart';
 import Linechart from '../graph/linechart';
 import Piechart from '../graph/piechart';
 import Bootlechart from '../graph/bootlechart';
+import LineChartComponent from '../graph/line';
 
 function Skill_Chart({ skill, row }){
 	
@@ -28,7 +29,8 @@ function Skill_Chart({ skill, row }){
 				<Bar_Chart data={skill}/>
 				:
 				current_wallet === 'Line' ?
-				<Linechart data={skill}/>
+				// <Linechart data={skill}/>
+				<LineChartComponent data={skill}/>
 				:
 				current_wallet === 'Pie' ?
 				<Piechart data={skill}/>

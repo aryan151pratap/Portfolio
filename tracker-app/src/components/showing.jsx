@@ -19,10 +19,10 @@ function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, route
 	}
 
   return(
-	<div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center p-1 bg-white">
-		<div className="w-full max-w-6xl bg-white rounded-lg shadow-2xl overflow-hidden flex flex-col h-screen">
+	<div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center sm:p-1 bg-white">
+		<div className="w-full bg-white sm:rounded-lg shadow-2xl overflow-hidden flex flex-col h-screen">
 			{/* Header */}
-			<div className="flex flex-row justify-between items-start sm:items-center bg-gradient-to-r from-gray-800 to-gray-900 p-4 gap-3">
+			<div className="flex flex-row justify-between items-start sm:items-center bg-gradient-to-r from-gray-800 to-gray-900 p-2 gap-3">
 				<div className="flex flex-row gap-2">
 					<button 
 						className="p-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center gap-1 transition-colors"
@@ -80,7 +80,7 @@ function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, route
 				</div>
 
 				{/* Content Area */}
-				<div className="flex-1 overflow-auto bg-gray-50 p-4">
+				<div className="flex-1 overflow-auto bg-gray-50 sm:p-4">
 				<Preview 
 					preview_data={open_skill.content} 
 					code={activeTab === 'code'} 
