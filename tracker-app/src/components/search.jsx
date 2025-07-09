@@ -6,7 +6,6 @@ function Search({ data, setData }){
 	const [search, setSearch] = useState("");
 
 	useEffect(() => {
-		console.log(data);
 		if (search === "") {
 			setData(data);
 			return;

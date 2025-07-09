@@ -10,7 +10,7 @@ export async function saveProject(route, data) {
     });
 
     const result = await res.json();
-    return result;
+    return { ok: res.ok, result };
   } catch (error) {
     console.error("Error saving project:", error);
     throw error;
@@ -25,7 +25,7 @@ export async function getProject(route) {
     });
 
     const result = await res.json();
-    return { ok: res.ok, result };;
+    return { ok: res.ok, result };
   } catch (error) {
     console.error("Error saving project:", error);
     throw error;

@@ -187,7 +187,7 @@ function ShowProject({ data }){
 						</div>
 					</div>
 				</div>
-				<Footer/>
+				<Footer data={data}/>
 			</div>			
 			}
 

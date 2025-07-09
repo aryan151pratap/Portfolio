@@ -33,13 +33,29 @@ router.post('/save', auth, async (req, res) => {
 
 router.get('/project', auth, async (req, res) => {
   try {
-    const projects = await Project.find({ userId: req.user.userId }).sort({ createdAt: -1 });
+    const projects = await Project.find(
+      { userId: req.user.userId },
+      'name url' // Only include 'name' and 'url'
+    ).sort({ createdAt: -1 });
+
     res.status(200).json({ projects });
   } catch (err) {
     console.error('Error fetching projects:', err);
     res.status(500).json({ error: 'Failed to fetch project data' });
   }
 });
+
+router.post('/current-project', auth, async (req, res) => {
+  try {
+    const { name } = req.body;
+    const project = await Project.findOne({ userId: req.user.userId , name});
+    res.status(200).json({ project });
+  } catch (err) {
+    console.error('Error fetching projects:', err);
+    res.status(500).json({ error: 'Failed to fetch project data' });
+  }
+});
+
 
 router.delete('/delete/:id', auth, async (req, res) => {
   try {

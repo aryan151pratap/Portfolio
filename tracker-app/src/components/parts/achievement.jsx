@@ -10,7 +10,7 @@ export default function SkillsDashboard({ setOpen_skill, skill }) {
         {skill.map((item, idx) => (
           <div 
             key={idx}
-            class="group relative z-5 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden 
+            className="group relative z-5 bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden 
                   cursor-pointer transition-all duration-300 hover:shadow-2xl hover:border-indigo-200 
                   p-5 md:p-6 lg:p-5 xl:p-6"
             onClick={() =>{

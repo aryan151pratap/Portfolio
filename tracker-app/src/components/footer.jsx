@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Logo from "./logo/logo";
 
-function Footer() {
+function Footer({ data }) {
 
 	const [project, setProject] = useState([
     {
@@ -35,7 +35,7 @@ function Footer() {
             <h3 className="text-lg font-semibold text-gray-100 mb-4">My Projects</h3>
             <ul className="space-y-3">
             {project.map((i,index) => (
-              <li>
+              <li key={index}>
                 <a 
                 href={i.url}
                 target="_blank" 
@@ -56,8 +56,8 @@ function Footer() {
           <div className="text-white flex flex-col gap-2">
             <h1 className="font-bold">Company</h1>
             <div className="text-sm">
-                  {company.map((i, index) => (
-              <div>
+            {company.map((i, index) => (
+              <div key={index}>
                 <p className="cursor-pointer">{i}</p>
               </div>
             ))}
@@ -78,7 +78,7 @@ function Footer() {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-100">Email</p>
-                  <a href="mailto:contact@example.com" className="text-gray-400 hover:text-blue-400 transition-colors">beast151singh@gmail.com</a>
+                  <a href={data.email} className="text-gray-400 hover:text-blue-400 transition-colors">{data.email}</a>
                 </div>
               </li>
               <li className="flex items-start">
@@ -137,7 +137,7 @@ function Footer() {
       </div>
         <div className="border-t border-gray-200 pt-8 mt-8 flex flex-col md:flex-col justify-between">
           <p className="text-gray-400 text-sm p-5">
-            © {new Date().getFullYear()} Your Name. All rights reserved.
+            © {new Date().getFullYear()} {data.username}. All rights reserved.
           </p>
           <div className="w-full mt-4 md:mt-0 bg-zinc-700/50 p-5">
             <ul className="flex space-x-6 text-sm flex justify-end">

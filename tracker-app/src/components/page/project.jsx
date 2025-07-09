@@ -47,6 +47,7 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
   const [selectedProject, setSelectedProject] = useState(null);
   const [name, setName] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [project_loading, setProject_loading] = useState(null);
   
 
   
@@ -68,6 +69,21 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
     check_auth();
 
   }, [])
+
+  const handle_fetch_project = async function(i){
+    setSelectedProject(null);
+    try{
+      setProject_loading(i);
+      const res = await saveProject('projects/current-project', {name: i});
+      if(res.ok){
+        setSelectedProject(res.result.project);
+      }
+    } catch (err){
+      console.log(err);
+    } finally{
+      setProject_loading(null);
+    }
+  }
 
 
   
@@ -248,18 +264,13 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
             </div>
             ) : (
               // List View
-              <div className="divide-y divide-gray-200">
-                {filter_data.map((project, index) => {
-                  const isSelected = selectedProject && project === selectedProject.name;
-
+            <div className="divide-y divide-gray-200">
+              {filter_data.map((project, index) => {
                   return (
                     <div 
                       key={index} 
                       className="py-4 sm:px-4 md:px-4 flex flex-col hover:bg-gray-50 rounded-lg transition-colors duration-200 cursor-pointer group"
-                      onClick={() => {
-                        const selected = project_data.find(p => p.name === project);
-                        setSelectedProject(selected || null);
-                      }}                  
+                      onClick={() => handle_fetch_project(project)}                  
                     >
                       <div className="flex items-center">
                         <div className={`${color.bg} font-bold border-b-4 border-r-2 border-${color.name}-700 rounded-lg w-10 h-10 flex items-center justify-center mr-4`}>
@@ -272,30 +283,39 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
                           </svg>
                         </button>
 
-                       {(() => {
-                            const projectInfo = project_data.find(p => p.name === project);
-                            if (!projectInfo || !projectInfo.url) return null;
+                        {(() => {
+                              const projectInfo = project_data.find(p => p.name === project);
+                              if (!projectInfo || !projectInfo.url) return null;
 
-                            return (
-                              <a
-                                href={projectInfo.url.startsWith('http') ? projectInfo.url : `https://${projectInfo.url}`}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="flex items-center group"
-                              >
-                                <svg className="w-5 h-5 mr-2 text-gray-500 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
-                                </svg>
-                              </a>
-                            );
-                      })()}
+                              return (
+                                <a
+                                  href={projectInfo.url.startsWith('http') ? projectInfo.url : `https://${projectInfo.url}`}
+                                  target="_blank"
+                                  rel="noopener noreferrer"
+                                  className="flex items-center group"
+                                >
+                                  <svg className="w-5 h-5 mr-2 text-gray-500 group-hover:text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                                  </svg>
+                                </a>
+                              );
+                        })()}
 
                       </div>
-                      {isSelected && selectedProject?.content.length > 0 && (
+                      {project_loading === project ?
+                        <div className="w-full h-full flex items-center justify-center">
+                          <div className="flex flex-col items-center space-y-4">
+                            <div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+                            <p className="text-gray-700 text-lg font-medium animate-pulse">Loading, please wait…</p>
+                          </div>
+                        </div>	
+                        :
+                        <>
+                        {selectedProject?.name === project && selectedProject?.content.length > 0 && (
                         <div className="mt-2 w-full rounded-lg bg-white shadow overflow-hidden">
                           <div className="w-full bg-zinc-100 flex flex-row mb-2 p-1">
                             <button
-                            	className="px-2 py-1 bg-zinc-300 text-black hover:bg-zinc-400 border-b-4 border-r-2 border-zinc-700 font-bold rounded-l-sm rounded-r-sm text-sm capitalize"
+                              className="px-2 py-1 bg-zinc-300 text-black hover:bg-zinc-400 border-b-4 border-r-2 border-zinc-700 font-bold rounded-l-sm rounded-r-sm text-sm capitalize"
                               onClick={() => {
                                 setOpen_skill(selectedProject);
                                 setProject(selectedProject);
@@ -316,21 +336,17 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
                           </div>
                           <Preview preview_data={selectedProject.content}/>
                         </div>
-                      )}
+                        )}
+                      </>
+                      }
                     </div>
                   )
                 })}
               </div>
             )}
           </div>
-          
           }
-
-
-
         </div>
-
-        
       </div>
     </div>
   );
