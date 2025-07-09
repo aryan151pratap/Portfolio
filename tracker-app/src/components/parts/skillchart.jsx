@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import Bar_Chart from '../graph/Bar_Chart';
-import Linechart from '../graph/linechart';
 import Piechart from '../graph/piechart';
 import Bootlechart from '../graph/bootlechart';
 import LineChartComponent from '../graph/line';
