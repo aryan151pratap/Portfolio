@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-function Show_certificate({ current_img, setCurrent_img }) {
+function Show_certificate({ current_img, setCurrent_img, showEdit }) {
 
   const [loading, setLoading] = useState(false);
 

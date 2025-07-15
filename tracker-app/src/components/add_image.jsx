@@ -4,7 +4,7 @@ import { compressImage } from "./utils/imagCompressor";
 import { saveProject } from "./utils/saveProject";
 import { useEffect } from "react";
 
-function Add_image({ color, img }){
+function Add_image({ color, img, showEdit }){
 
 	const [image, setImage] = useState('');
 
@@ -38,18 +38,20 @@ function Add_image({ color, img }){
 			</div>
 		</div>
 		}
-		<div className="w-full flex justify-end px-2">
-		<label htmlFor="image-upload" className="cursor-pointer">
-			<img src={upload} alt="Upload" className="w-8 h-8" />
-		</label>
-		<input
-			id="image-upload"
-			type="file"
-			accept="image/*"
-			onChange={handleImageChange}
-			className="hidden" 
-			/>
-		</div>
+		{showEdit &&
+			<div className="w-full flex justify-end px-2">
+			<label htmlFor="image-upload" className="cursor-pointer">
+				<img src={upload} alt="Upload" className="w-8 h-8" />
+			</label>
+			<input
+				id="image-upload"
+				type="file"
+				accept="image/*"
+				onChange={handleImageChange}
+				className="hidden" 
+				/>
+			</div>
+		}
 		</div>
 		</>
 	)

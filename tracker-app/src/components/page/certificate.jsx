@@ -6,9 +6,9 @@ import verified_img from '../../image/verified.png';
 import Empty from '../../image/empty.png';
 import { getProject, deleteProject} from "../utils/saveProject.jsx";
 
-function Certificate(){
+function Certificate({ showEdit, userId }){
 
-	const [skill_button, setSkill_button] = useState(['provider', 'skill'])
+	const [skill_button, setSkill_button] = useState(['skill', 'provider'])
 	const [current_button, setCurrent_button] = useState('skill');
 	const [current_img, setCurrent_img] = useState('');
 	const [row, setRow] = useState(false);
@@ -31,7 +31,7 @@ function Certificate(){
 		const get_data = async function(){
 			setLoading(true);
 			try{
-				const new_data = await getProject(`certificate/get/${offset}`);
+				const new_data = await getProject(`certificate/get/${userId}/${offset}`);
 				if(new_data.ok){
 					if(offset === 0){
 						setData(new_data.result.certificates);
@@ -98,16 +98,21 @@ function Certificate(){
 
 				<div className="flex flex-col gap-2 shadow-md p-2 border-1 border-zinc-200">
 
+					{showEdit &&
 					<div className="w-full">
 						<button className="bg-zinc-500 px-2 text-white rounded-sm inset-shadow-sm inset-shadow-zinc-800"
 						onClick={() => setRow(!row)}
 						>{row ? 'Row' : 'Column'}</button>
 					</div>
+					}
+					
 					<div className={`w-full flex ${row ? 'flex-row' : 'flex-col'} justify-between gap-4`}>
 						
+						{showEdit &&
 						<div className="w-full h-full order-1 md:order-2">
 							<Form setFormData={setData} setRefreshTrigger={setRefreshTrigger} show_form={show_form} setShow_form={setShow_form} edit={edit} setEdit={setEdit}/>
 						</div>
+						}
 
 						<div className="w-full bg-zinc-200 order-2 md:order-1 border-1 border-zinc-200 border-black shadow-md rounded- p-2 text-sm">
 							<div className="w-full flex border-b-2 border-zinc-300">
@@ -241,6 +246,7 @@ function Certificate(){
 									</svg>
 									View
 								</button>
+								{showEdit &&
 								<div className="flex justify-center items-center">
 									<span
 										className="flex justify-center items-center text-zinc-500 cursor-pointer hover:text-zinc-900 inline-block align-middle"
@@ -264,6 +270,7 @@ function Certificate(){
 									</button>
 									
 								</div>
+								}
 							</div>
 						</div>
 						))}

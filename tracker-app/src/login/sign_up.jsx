@@ -8,6 +8,7 @@ const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 
 function Signup({ setSign }) {
   const [login, setLogin] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   const [form, setForm] = useState({
     username: '',
@@ -21,7 +22,7 @@ function Signup({ setSign }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setLoading(true);
     try {
       const response = await fetch(`${apiUrl}/auth/sign_up`, {
         method: 'POST',
@@ -41,6 +42,8 @@ function Signup({ setSign }) {
     } catch (error) {
       console.error('Error:', error);
       alert('An error occurred while signing up');
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -82,7 +85,7 @@ function Signup({ setSign }) {
               name="email"
               value={form.email}
               onChange={handleChange}
-			  placeholder='Enter email'
+			        placeholder='Enter email'
               required
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-zinc-700"
             />
@@ -90,12 +93,22 @@ function Signup({ setSign }) {
 
           <PasswordInput form={form} handleChange={handleChange}/> 
 
+          
           <button
             type="submit"
             className="w-full bg-zinc-800 text-white py-2 rounded-lg hover:bg-zinc-900 transition-colors"
           >
-            Create Account
+            {loading ?
+              <div className="flex justify-center items-center h-fit bg-white dark:bg-gray-900">
+                <div className="w-6 h-6 border-4 border-white border-dashed rounded-full animate-spin"></div>
+              </div>
+              :
+              <span>
+                Create Account
+              </span>
+            }
           </button>
+          
         </form>
         </div>
         :

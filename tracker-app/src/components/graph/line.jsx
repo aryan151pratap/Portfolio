@@ -37,7 +37,7 @@ const LineChartComponent = ({ data, title }) => {
         <ResponsiveContainer width="100%" height="100%">
           <LineChart
             data={data}
-            margin={{ top: 5, right: 20, left: -20, bottom: 0 }}
+            margin={{ top: 10, right: 20, left: -20, bottom: 0 }}
           >
             <defs>
               <linearGradient id="lineGradient" x1="0" y1="0" x2="1" y2="0">

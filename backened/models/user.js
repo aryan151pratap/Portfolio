@@ -26,6 +26,10 @@ const UserSchema = new mongoose.Schema({
     required: false,
     default: []
   },
+  current_graph: {
+    type: String,
+    default: ''
+  }
 }, {
   timestamps: true
 });

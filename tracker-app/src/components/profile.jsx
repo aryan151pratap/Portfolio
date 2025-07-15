@@ -4,7 +4,7 @@ import Animation from "./animation/animation";
 import Bubble from "./animation/bubble";
 import { saveProject } from './utils/saveProject';
 
-function Profile({ color, data }) {
+function Profile({ color, data, showEdit }) {
 	const [form, setForm] = useState({ bio: '', details: [] });
 	const [isEditingBio, setIsEditingBio] = useState(false);
 	const [isEditingDetail, setIsEditingDetail] = useState(null);
@@ -70,8 +70,9 @@ function Profile({ color, data }) {
 							<div><Bubble /></div>
 							<div><Animation text={typeof form.bio === 'string' ? form.bio.split('|') : []} /></div>
 						</div>
+						
 						<div className="absolute -bottom-30 px-6 py-4">
-							<Add_image color={color} img={data.image} />
+							<Add_image color={color} img={data.image} showEdit={showEdit}/>
 						</div>
 					</div>
 				</div>
@@ -94,6 +95,7 @@ function Profile({ color, data }) {
 							<p className="flex flex-col gap-2 h-full p-4 text-wrap text-2xl mt-4">
 								<p>I’m <span className="font-bold uppercase"> {data.username}</span>,</p>
 								<p> {form.bio}</p>
+								{showEdit &&
 								<span
 									onClick={() => setIsEditingBio(true)}
 									className="ml-auto text-zinc-500 cursor-pointer hover:text-zinc-900 inline-block align-middle"
@@ -102,6 +104,7 @@ function Profile({ color, data }) {
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
 									</svg>
 								</span>
+								}
 							</p>
 						)}
 					</div>
@@ -130,6 +133,7 @@ function Profile({ color, data }) {
 						) : (
 							<>
 								<p>{text}</p>
+								{showEdit &&
 								<div
 									onClick={() => setIsEditingDetail(index)}
 									className="mt-auto ml-auto mt-2 text-zinc-500 cursor-pointer hover:text-zinc-900"
@@ -138,32 +142,37 @@ function Profile({ color, data }) {
 										<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
 									</svg>
 								</div>
+								}
 							</>
 						)}
 					</div>
 				))}
 
-				{addingNew ? (
-					<div className="flex flex-col border border-dashed border-blue-400 w-full shadow-sm p-4 rounded-md">
-						<textarea
-							className="w-full border p-2 rounded-md text-base"
-							placeholder="Enter new detail..."
-							value={newDetailText}
-							onChange={(e) => setNewDetailText(e.target.value)}
-						/>
-						<div className="mt-2 flex gap-2">
-							<button onClick={addNewDetail} className="px-3 py-1 bg-blue-500 text-white rounded-md">Add</button>
-							<button onClick={cancelNewDetail} className="px-3 py-1 bg-gray-300 rounded-md">Cancel</button>
+				{showEdit &&
+					<div>
+					{addingNew ? (
+						<div className="flex flex-col border border-dashed border-blue-400 w-full shadow-sm p-4 rounded-md">
+							<textarea
+								className="w-full border p-2 rounded-md text-base"
+								placeholder="Enter new detail..."
+								value={newDetailText}
+								onChange={(e) => setNewDetailText(e.target.value)}
+							/>
+							<div className="mt-2 flex gap-2">
+								<button onClick={addNewDetail} className="px-3 py-1 bg-blue-500 text-white rounded-md">Add</button>
+								<button onClick={cancelNewDetail} className="px-3 py-1 bg-gray-300 rounded-md">Cancel</button>
+							</div>
 						</div>
+					) : (
+						<button
+							onClick={() => setAddingNew(true)}
+							className="mt-4 px-4 py-2 border-2 border-blue-400 text-blue-600 rounded-md hover:bg-blue-50 w-fit"
+						>
+							+ Add Detail
+						</button>
+					)}
 					</div>
-				) : (
-					<button
-						onClick={() => setAddingNew(true)}
-						className="mt-4 px-4 py-2 border-2 border-blue-400 text-blue-600 rounded-md hover:bg-blue-50 w-fit"
-					>
-						+ Add Detail
-					</button>
-				)}
+				}
 			</div>
 		</div>
 	);

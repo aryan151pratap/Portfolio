@@ -28,7 +28,7 @@ function Footer({ data }) {
 		</div>
       <div className="max-w-7xl mx-auto flex sm:flex-col md:flex-row flex-col">
 
-        <div className="sm:grid sm:grid-cols-2 md:grid md:grid-cols-2 flex flex-row gap-8 mb-10 px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid md:grid-cols-2 gap-8 mb-10 px-4 sm:px-6">
           
           {/* Projects */}
           <div>
@@ -78,7 +78,7 @@ function Footer({ data }) {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-100">Email</p>
-                  <a href={data.email} className="text-gray-400 hover:text-blue-400 transition-colors">{data.email}</a>
+                  <a href={data.email} className="text-gray-400 hover:text-blue-400 transition-colors">apratapsingh151@gmail.com</a>
                 </div>
               </li>
               <li className="flex items-start">
@@ -87,7 +87,7 @@ function Footer({ data }) {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-100">Phone</p>
-                  <a href="tel:+1234567890" className="text-gray-400 hover:text-blue-400 transition-colors">+1 (234) 567-890</a>
+                  <a href="tel:+1234567890" className="text-gray-400 hover:text-blue-400 transition-colors">+91-6398249125</a>
                 </div>
               </li>
               <li className="flex items-start">
@@ -97,7 +97,7 @@ function Footer({ data }) {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-100">Location</p>
-                  <p className="text-gray-400">San Francisco, California</p>
+                  <p className="text-gray-400">Mathura (UP), India</p>
                 </div>
               </li>
             </ul>
@@ -137,7 +137,7 @@ function Footer({ data }) {
       </div>
         <div className="border-t border-gray-200 pt-8 mt-8 flex flex-col md:flex-col justify-between">
           <p className="text-gray-400 text-sm p-5">
-            © {new Date().getFullYear()} {data.username}. All rights reserved.
+            © {new Date().getFullYear()} Show Projects. All rights reserved.
           </p>
           <div className="w-full mt-4 md:mt-0 bg-zinc-700/50 p-5">
             <ul className="flex space-x-6 text-sm flex justify-end">

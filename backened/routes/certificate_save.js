@@ -63,12 +63,12 @@ router.post('/save', auth, async (req, res) => {
 });
 
 
-router.get('/get/:offset', auth, async (req, res) => {
+router.get('/get/:id/:offset', auth, async (req, res) => {
 	try {
 		const offset = parseInt(req.params.offset) || 0; // offset means how many items to skip
 		const limit = 10;
 
-		const certificates = await Certificate.find({ userId: req.user.userId })
+		const certificates = await Certificate.find({ userId: req.params.id })
 		// .sort({ date: -1 })
 		.skip(offset)
 		.limit(limit);

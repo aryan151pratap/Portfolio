@@ -8,10 +8,31 @@ router.get('/user', auth, async (req, res) => {
 
 	if (!user) return res.status(404).json({ message: 'User not found'});
 
-	const { username, email, image, bio, details } = user;
+	const { _id, username, email, image, bio, details } = user;
 
 	res.status(200).json({
 		user: {
+			id: _id,
+			username,
+			email,
+			image,
+			bio,
+			details
+		}
+	});
+})
+
+router.get('/user-by-id/:id', async (req, res) => {
+
+	const user = await User.findOne({ _id: req.params.id }).select('-password').lean();
+
+	if (!user) return res.status(404).json({ message: 'User not found'});
+
+	const { _id, username, email, image, bio, details } = user;
+
+	res.status(200).json({
+		user: {
+			id: _id,
 			username,
 			email,
 			image,

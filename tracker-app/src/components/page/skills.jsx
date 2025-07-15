@@ -4,8 +4,7 @@ import Skill_img from '../../image/skill.png';
 import target from '../../image/target.png';
 import Skill_Chart from "../parts/skillchart";
 
-function Skill({ color,  skill_data, data }) {
-
+function Skill({ color, skill_data, data, showEdit, userId }) {
   const [box, setBox] = useState([{name: 'Skill', img: Skill_img},
     {name: 'Target', img: target}
   ])
@@ -14,7 +13,7 @@ function Skill({ color,  skill_data, data }) {
   return(
     <>
     <div className="w-full">
-      <Profile color={color} data={data}/>
+      <Profile color={color} data={data} showEdit={showEdit}/>
 
       <div className="w-full p-4 text-black flex gap-4 md:flex-row flex-col">
         {box.map((i, index) => (
@@ -28,7 +27,7 @@ function Skill({ color,  skill_data, data }) {
               </div>
               <div>
               {i.name === 'Skill' &&
-                <Skill_Chart skill={skill_data} row={false}/>
+                <Skill_Chart skill={skill_data} row={false} showEdit={showEdit} userId={userId}/>
               }
               </div>
             </div>

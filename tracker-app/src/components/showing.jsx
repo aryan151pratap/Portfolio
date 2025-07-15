@@ -2,7 +2,7 @@ import { useState } from "react";
 import Preview from "./edit/preview";
 import { saveProject, getProject, deleteProject } from './utils/saveProject.jsx';
 
-function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, routes }) {
+function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, routes, showEdit }) {
 	const [activeTab, setActiveTab] = useState("preview");
 
 	const handleDelete = async function(id) {
@@ -23,6 +23,7 @@ function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, route
 		<div className="w-full bg-white sm:rounded-lg shadow-2xl overflow-hidden flex flex-col h-screen">
 			{/* Header */}
 			<div className="flex flex-row justify-between items-start sm:items-center bg-gradient-to-r from-gray-800 to-gray-900 p-2 gap-3">
+				{showEdit &&
 				<div className="flex flex-row gap-2">
 					<button 
 						className="p-2 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-md flex items-center gap-1 transition-colors"
@@ -45,6 +46,10 @@ function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, route
 							<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
 						</svg>
 					</button>
+				</div>
+				}
+				<div className="text-white font-semibold text-sm p-2 bg-gray-600 rounded">
+					<span>{open_skill?.skill || open_skill?.name}</span>
 				</div>
 
 				<button 

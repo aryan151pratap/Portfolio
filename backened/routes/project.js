@@ -31,10 +31,10 @@ router.post('/save', auth, async (req, res) => {
   }
 });
 
-router.get('/project', auth, async (req, res) => {
+router.get('/project/:id', auth, async (req, res) => {
   try {
     const projects = await Project.find(
-      { userId: req.user.userId },
+      { userId: req.params.id },
       'name url' // Only include 'name' and 'url'
     ).sort({ createdAt: -1 });
 
@@ -45,10 +45,10 @@ router.get('/project', auth, async (req, res) => {
   }
 });
 
-router.post('/current-project', auth, async (req, res) => {
+router.post('/current-project/:id', auth, async (req, res) => {
   try {
     const { name } = req.body;
-    const project = await Project.findOne({ userId: req.user.userId , name});
+    const project = await Project.findOne({ userId: req.params.id , name});
     res.status(200).json({ project });
   } catch (err) {
     console.error('Error fetching projects:', err);

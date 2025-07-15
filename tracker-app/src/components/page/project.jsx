@@ -21,7 +21,7 @@ const colorOptions = [
   { name: 'green', bg: 'bg-green-500', text: 'text-green-100' },
 ];
 
-function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
+function Project({ setPublish, setOpen_skill, showEdit, userId }) {
 
   const [project, setProject] = useState({name: '', url: ''});
 
@@ -55,7 +55,7 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
     setLoading(true);
     const check_auth = async function(){
       try {
-        const data = await getProject('projects/project')
+        const data = await getProject(`projects/project/${userId}`)
         if (data.ok) {
           setProject_data(data.result.projects);
         } 
@@ -74,7 +74,7 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
     setSelectedProject(null);
     try{
       setProject_loading(i);
-      const res = await saveProject('projects/current-project', {name: i});
+      const res = await saveProject(`projects/current-project/${userId}`, {name: i});
       if(res.ok){
         setSelectedProject(res.result.project);
       }
@@ -94,7 +94,7 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
         <div>
           <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 mb-6">
             <div>
-              <h1 className="text-3xl font-bold text-gray-800">Your Projects</h1>
+              <h1 className="text-3xl font-bold text-gray-800">{showEdit ? 'Your' : 'My'} Projects</h1>
               <p className="text-gray-600 mt-1">
                 {website_url.length} projects • {filter_data.length} matching your search
               </p>
@@ -147,11 +147,13 @@ function Project({ setPublish, setOpen_skill, preview_data, setPreview_data }) {
                 </div>
 
               </div>
+              {showEdit &&
               <div className="ml-auto">
                 <button className={`px-2 py-1 text-white rounded-sm ${color.bg} hover:bg-${color.name}-600 border-${color.name}-800 ${show_form ? "border-b-2 border-r-1" : "border-b-4 border-r-2"}`}
                 onClick={() => setShow_form(true)}
                 >+ Add</button>  
               </div>
+              }
             </div>
           </div>
 

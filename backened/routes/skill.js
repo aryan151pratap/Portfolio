@@ -31,11 +31,10 @@ router.post('/save', auth, async (req, res) => {
 });
 
 
-router.get('/get', auth, async (req, res) => {
+router.get('/get/:id', auth, async (req, res) => {
 	try {
 		const skills = await Wallet.find({ 
-			userId: req.user.userId
-			// content: { $exists: false }
+			userId: req.params.id
 		});
 		res.status(200).json({ skills, name: req.user.name });
 	} catch (err) {
@@ -55,10 +54,50 @@ router.delete('/delete/:id', auth, async (req, res) => {
 			return res.status(404).json({ error: 'skill not found or unauthorized' });
 		}
 	
-	res.status(200).json({ message: 'skill deleted successfully' });
+		res.status(200).json({ message: 'skill deleted successfully' });
 	} catch (err) {
 		console.error('Error deleting skill:', err);
 		res.status(500).json({ error: 'Failed to delete skill' });
+	}
+})
+
+router.post('/current_graph', auth, async (req, res) =>{
+	try{
+		const { current_graph } = req.body;
+		console.log(current_graph);
+		if (!current_graph) {
+			return res.status(400).json({ error: "Missing current_graph in request body" });
+		}
+
+		const user = await User.findOneAndUpdate(
+			{ _id: req.user.userId },
+			{ current_graph },
+			{ new: true }
+		);
+
+		if (!user) {
+			return res.status(404).json({ error: "User not found" });
+		}
+		res.status(200).json({ message: "Graph updated successfully", user });
+	} catch (err){
+		console.log(err);
+		res.status(500).json({ error: "Internal server error" });
+	}
+})
+
+router.get('/get_graph/:id', auth, async (req, res) =>{
+	try{
+		const user = await User.findOne(
+			{ _id: req.params.id }
+		).select('current_graph');
+		if (!user) {
+			return res.status(404).json({ error: "User not found" });
+		}
+
+		res.status(200).json({ current_graph: user.current_graph });
+	} catch (err){
+		console.log(err);
+		res.status(500).json({ error: "Internal server error" });
 	}
 })
 

@@ -3,22 +3,63 @@ import Bar_Chart from '../graph/Bar_Chart';
 import Piechart from '../graph/piechart';
 import Bootlechart from '../graph/bootlechart';
 import LineChartComponent from '../graph/line';
+import { useEffect } from 'react';
 
-function Skill_Chart({ skill, row }){
-	
-	const [current_wallet, setCurrent_wallet] = useState('Bar');
+const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 
-	const [wallet_button, setWallet_button] = useState(['Bar', 'Line', 'Pie', 'Bootle'])
-	
+function Skill_Chart({ skill, row, showEdit, userId }){
+	const [current_wallet, setCurrent_wallet] = useState('Pie');
+
+	const [wallet_button, setWallet_button] = useState(['Line', 'Bar', 'Pie', 'Bootle'])
+
+	useEffect(() =>{
+		(async () => {
+			try {
+				const resp = await fetch(`${apiUrl}/wallet/get_graph/${userId}`, {
+					method: "GET",
+					headers: { "Content-Type": "application/json" },
+					credentials: "include",
+				});
+
+				if (!resp.ok) throw new Error("Could not load current graph");
+
+				const data = await resp.json();
+
+				if (data?.current_graph){
+					setCurrent_wallet(data.current_graph);
+				}
+			} catch (err) {
+				console.error(err);
+			}
+		})();
+	}, [])
+
+
+	const handleCurrentGraph = async function(i){
+		setCurrent_wallet(i);
+		try{
+			if(showEdit){
+				await fetch(`${apiUrl}/wallet/current_graph`, {
+					method: 'POST',
+					headers: {
+					'Content-Type': 'application/json',
+					},
+					credentials: 'include',
+					body: JSON.stringify({ current_graph : i}),
+				});
+			}
+		} catch (err){
+			console.log(err);
+		}
+	}
+
 	return(
 		<>
 		<div className="w-full flex border-b-2 border-zinc-300">
 			{wallet_button.map((i, index) => (
 			<div key={index} className={`px-2 rounded-t-sm ${current_wallet === i && 'text-[15px] border-zinc-300 border-l-2 border-t-2 border-r-2 inset-shadow-sm inset-shadow-zinc-900 bg-zinc-600 text-white'}`}>
 				<button className="cursor-pointer"
-				onClick={() => {
-					setCurrent_wallet(i)
-				}}
+				onClick={() => handleCurrentGraph(i)}
 				>{i}</button>
 			</div>
 			))}

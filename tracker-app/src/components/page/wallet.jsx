@@ -5,7 +5,7 @@ import SkillsDashboard from '../parts/achievement.jsx';
 import Business from  '../../image/business.png';
 import { saveProject } from "../utils/saveProject.jsx";
 
-function Wallet({ setOpen_skill, skill, setSkill }){
+function Wallet({ setOpen_skill, skill, setSkill, showEdit, userId }){
 	const [row, setRow] = useState(true);
 
 	const [show_form, setshow_form] = useState(false);
@@ -15,6 +15,9 @@ function Wallet({ setOpen_skill, skill, setSkill }){
 		level: '',
 		content: []
 	});
+
+	const categories = [...new Set(skill.map(item => item.category || "Other"))];
+  	categories.unshift("all");
 
 
 	const handle_add_skill = async function(){
@@ -57,6 +60,7 @@ function Wallet({ setOpen_skill, skill, setSkill }){
 					<div className={`flex ${row ? 'sm:flex-row md:flex-row flex-col' : 'sm:flex-col md:flex-col flex-col'} justify-between gap-4 overflow-x-auto`}>
 						
 						<div className={`w-full h-full flex ${row ? 'flex-col' : 'flex-row'} justify-between gap-2 order-1 md:order-2`}>
+							{showEdit &&
 							<div className="w-full h-full shadow-md rounded-sm border-1 border-zinc-200">
 								<h1 className="text-zinc-700 font-bold mt-5 px-2">Add your Skill!</h1>
 								<div className="w-full p-4">
@@ -100,11 +104,12 @@ function Wallet({ setOpen_skill, skill, setSkill }){
 									}
 								</div>
 							</div>
+							}
 							
 							{skill.length > 0 &&
 							<div className={`h-full text-sm p-2 gap-4 border-1 border-zinc-200 shadow-md rounded-sm`}>
 								<div className="p-4 flex gap-2 items-center">
-									<h1 className="px-1 rounded-sm inset-shadow-sm inset-shadow-purple-900 bg-purple-500 text-white">Your's Skills</h1>
+									<h1 className="px-1 rounded-sm inset-shadow-sm inset-shadow-purple-900 bg-purple-500 text-white">{showEdit ? 'Your\'s' : 'My'} Skills</h1>
 									<img src={skill_img} alt="" className="h-6 w-6 object-cover"/>
 								</div>
 								<div className="flex flex-wrap justify-center gap-5">
@@ -123,21 +128,51 @@ function Wallet({ setOpen_skill, skill, setSkill }){
 							}
 							
 						</div>
+						
+						
 
 						{skill.length > 0 &&
 						<div className="w-full order-2 md:order-1 border-1 border-zinc-200 border-black shadow-md rounded-sm p-2 text-sm">
-							<Skill_Chart skill={skill} row={row}/>
+							<Skill_Chart skill={skill} row={row} showEdit={showEdit} userId={userId}/>
 						</div>
 						}
 					</div>
 
-					{skill.length > 0 &&
-					<div>
-						<SkillsDashboard setOpen_skill={setOpen_skill} skill={skill}/>
-					</div>
-					}
 					
 				</div>
+
+				{skill.length > 0 &&
+
+				<div className="p-2">
+					<div className="mt-5 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6">
+						<div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+						<div>
+							<p className="text-3xl font-bold text-indigo-600">{skill.length}</p>
+							<p className="text-gray-600">Total Skills</p>
+						</div>
+						<div>
+							<p className="text-3xl font-bold text-indigo-600">
+							{Math.max(...skill.map(s => s.level))}%
+							</p>
+							<p className="text-gray-600">Highest Proficiency</p>
+						</div>
+						<div>
+							<p className="text-3xl font-bold text-indigo-600">
+							{categories.length - 1}
+							</p>
+							<p className="text-gray-600">Categories</p>
+						</div>
+						<div>
+							<p className="text-3xl font-bold text-indigo-600">
+							{Math.round(skill.reduce((sum, s) => sum + s.level, 0) / skill.length)}%
+							</p>
+							<p className="text-gray-600">Average Proficiency</p>
+						</div>
+						</div>
+					</div>
+					<SkillsDashboard setOpen_skill={setOpen_skill} skill={skill} showEdit={showEdit} userId={userId}/>
+				</div>
+				}
 		</div>
 		</>
 	)
