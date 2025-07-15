@@ -58,5 +58,8 @@
   .animate-wave {
     animation: wave 4s linear infinite;
   }
+  .clip-bookmark {
+    clip-path: polygon(0% 0%, 90% 0, 100% 50%, 90% 100%, 0% 100%, 10% 50%);
+  }
 }
 

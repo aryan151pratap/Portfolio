@@ -10,7 +10,7 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
 
   return (
     <div className="sm:p-2 mx-auto py-8">
-      <div className="text-center">
+      <div className="text-center mt-4">
         <h1 className="text-4xl font-bold text-gray-800">{showEdit ? 'Your\'s' : 'My'} Skills & Expertise</h1>
         <p className="text-gray-600 max-w-2xl mx-auto">
           Explore my technical capabilities and proficiency levels across various domains
@@ -19,11 +19,11 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
       
       
       {/* Skills Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-4">
         {skill.map((item, idx) => (
           <div 
             key={idx}
-            className="bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden 
+            className="bg-white shadow-lg border border-gray-100 overflow-hidden 
                       cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-indigo-300 
                       p-6 flex flex-col"
             onClick={() => setOpen_skill(item)}

@@ -132,7 +132,16 @@ function Profile({ color, data, showEdit }) {
 							</>
 						) : (
 							<>
-								<p>{text}</p>
+							
+							<div className="relative bg-white p-2">
+								
+								<div className="absolute -top-5 -left-6 bg-rose-500 text-white px-4 py-1 rounded-tr-md rounded-br-md font-semibold text-sm shadow-md border-b-4 border-rose-800 clip-bookmark">
+								<div className="absolute -z-10 inset-0 blur-sm opacity-50 bg-rose-700 rounded-md"></div>
+								📌 Bookmarked
+								</div>
+
+
+								<p className="ml-2 mt-1 text-gray-800">{text}</p>
 								{showEdit &&
 								<div
 									onClick={() => setIsEditingDetail(index)}
@@ -143,6 +152,7 @@ function Profile({ color, data, showEdit }) {
 									</svg>
 								</div>
 								}
+							</div>
 							</>
 						)}
 					</div>
