@@ -63,9 +63,7 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
           </div>
         ))}
       </div>
-      
-      {/* Stats Footer */}
-      
+            
     </div>
   );
 }
