@@ -28,7 +28,7 @@ function Footer({ data }) {
 		</div>
       <div className="max-w-7xl mx-auto flex sm:flex-col md:flex-row flex-col">
 
-        <div className="grid grid-cols-2 md:grid md:grid-cols-2 gap-8 mb-10 px-4 sm:px-6">
+        <div className="grid grid-cols-2 md:grid md:grid-cols-3 gap-8 mb-10 px-4 sm:px-6">
           
           {/* Projects */}
           <div>

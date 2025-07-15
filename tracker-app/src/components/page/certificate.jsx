@@ -22,7 +22,6 @@ function Certificate({ showEdit, userId }){
 	const [show_form, setShow_form] = useState(false);
 
 	useEffect(() => {
-		console.log(data);
 		const updated = [...new Set(data.flatMap(i => i[current_button].split(',').map(v => v.trim())))];
 		setCurrent_data(updated);
 	}, [data, current_button]);
@@ -105,7 +104,7 @@ function Certificate({ showEdit, userId }){
 						>{row ? 'Row' : 'Column'}</button>
 					</div>
 					}
-					
+
 					<div className={`w-full flex ${row ? 'flex-row' : 'flex-col'} justify-between gap-4`}>
 						
 						{showEdit &&
@@ -146,17 +145,10 @@ function Certificate({ showEdit, userId }){
 				</div>
 
 				<div className="w-full px-2 py-6">
-					{loading ?
-					<div className="w-full h-full flex items-center justify-center">
-						<div className="flex flex-col items-center space-y-4">
-							<div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
-							<p className="text-gray-700 text-lg font-medium animate-pulse">Loading, please wait…</p>
-						</div>
-					</div>	
-					:
+					
 				
 					<div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6 md:gap-8">
-						{filtered_data.map((i, index) => (
+						{filtered_data?.map((i, index) => (
 						<div 
 							key={index} 
 							className="flex flex-col group bg-white rounded-sm shadow-lg overflow-hidden border border-gray-100 transition-all duration-300 hover:shadow-xl hover:-translate-y-2"
@@ -275,16 +267,27 @@ function Certificate({ showEdit, userId }){
 						</div>
 						))}
 					</div>
-					}
-					{offset <= data.length &&
-						<div className="flex justify-center items-center text-blue-600 hover:underline cursor-pointer"
-						onClick={() => {
-							setOffset(e => e + 10);
-							console.log(offset)
-						}}
-						>
-							more
+					{loading ?
+					<div className="w-full h-full flex items-center justify-center mt-5">
+						<div className="flex flex-col items-center space-y-4">
+							<div className="w-12 h-12 border-4 border-indigo-500 border-t-transparent rounded-full animate-spin"></div>
+							{offset === 0 &&
+							<p className="text-gray-700 text-lg font-medium animate-pulse">Loading, please wait…</p>
+							}
 						</div>
+					</div>	
+					:
+					<div>
+						{offset <= data.length &&
+							<div className="flex justify-center items-center text-blue-600 hover:underline cursor-pointer"
+							onClick={() => {
+								setOffset(e => e + 10);
+							}}
+							>
+								more
+							</div>
+						}
+					</div>
 					}
 				</div>
 

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import ShowProject from './components/chatapp';
 import './App.css';
 import Signup from './login/sign_up';
@@ -9,11 +9,11 @@ const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 function App() {
   const [sign, setSign] = useState(true);
   const [loading, setLoading] = useState(true);
-  const [data, setData] = useState([]);
+  const [userId, setUserId] = useState(null);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const check_auth = async () => {
-      setLoading(true);
       try {
         const response = await fetch(`${apiUrl}/remember/user`, {
           method: 'GET',
@@ -21,7 +21,8 @@ function App() {
         });
 
         const data = await response.json();
-        if (response.ok) {
+        if (response.ok && data.user?.id) {
+          setUserId(data.user.id);
           setData(data.user);
           setSign(false);
         }
@@ -33,7 +34,7 @@ function App() {
     };
 
     check_auth();
-  }, [sign]);
+  }, []);
 
   if (loading) {
     return (
@@ -53,8 +54,16 @@ function App() {
           <Route path="*" element={<Signup setSign={setSign} />} />
         ) : (
           <>
-            <Route path="/profile/:userId" element={<ShowProject />} />
-            <Route path="/" element={<ShowProject data={data} />} />
+            {/* Main profile route */}
+            <Route path="/profile/:userId" element={<ShowProject login_userId={userId} data={data}/>} />
+
+            {/* Fallback redirect if path is / or any unknown */}
+            <Route
+              path="*"
+              element={
+                userId ? <Navigate to={`/profile/${userId}`} replace /> : <Navigate to="/login" replace />
+              }
+            />
           </>
         )}
       </Routes>

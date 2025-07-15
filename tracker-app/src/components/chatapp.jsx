@@ -11,11 +11,11 @@ import Edit_box from './edit/edit_box.jsx';
 import Preview from "./edit/preview";
 import { saveProject, getProject } from './utils/saveProject.jsx';
 
-function ShowProject({ data: initialData }) {
+function ShowProject({ login_userId }) {
 	const { userId } = useParams();
 	const [ id, setId] = useState(null);
-	const [data, setData] = useState(initialData || null);
-	const [loading, setLoading] = useState(!initialData);
+	const [data, setData] = useState(null);
+	const [loading, setLoading] = useState(true);
 
 	const color = 'white';
 	const [currentPage, setCurrentPage] = useState('Profile');
@@ -33,13 +33,12 @@ function ShowProject({ data: initialData }) {
 		let isMounted = true;
 
 		const fetchData = async () => {
-			if (!data && userId) {
+			if (userId) {
 				try {
 					const response = await getProject(`remember/user-by-id/${userId}`);
 					if (response.ok && isMounted) {
 						setData(response.result.user);
-						setShowEdit(false);
-
+						if(login_userId !== userId) setShowEdit(false);
 					}
 				} catch (err) {
 					if (isMounted) console.error('Fetch error:', err);
