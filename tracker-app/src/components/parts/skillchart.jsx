@@ -9,11 +9,12 @@ const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 
 function Skill_Chart({ skill, row, showEdit, userId }){
 	const [current_wallet, setCurrent_wallet] = useState('Pie');
-
+	const [loading, setLoading] = useState(false);
 	const [wallet_button, setWallet_button] = useState(['Line', 'Bar', 'Pie', 'Bootle'])
 
 	useEffect(() =>{
 		(async () => {
+			setLoading(true);
 			try {
 				const resp = await fetch(`${apiUrl}/wallet/get_graph/${userId}`, {
 					method: "GET",
@@ -30,6 +31,8 @@ function Skill_Chart({ skill, row, showEdit, userId }){
 				}
 			} catch (err) {
 				console.error(err);
+			} finally {
+				setLoading(false);
 			}
 		})();
 	}, [])
@@ -64,7 +67,12 @@ function Skill_Chart({ skill, row, showEdit, userId }){
 			</div>
 			))}
 		</div>
-		<div className="w-full">
+		{loading ?
+			<div className='h-70 flex justify-center items-center'>
+				<div className='text-rose-600 rounded-full h-16 w-16 bg-white border-5 border-dashed animate-spin'></div>
+			</div>
+		:
+			<div className="w-full">
 			{current_wallet === 'Bar' ? 
 				<Bar_Chart data={skill}/>
 				:
@@ -82,6 +90,7 @@ function Skill_Chart({ skill, row, showEdit, userId }){
 				</div>
 			}
 		</div>
+		}
 	</>
 	)
 }

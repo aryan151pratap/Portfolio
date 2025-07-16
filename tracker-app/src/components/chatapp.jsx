@@ -33,7 +33,7 @@ function ShowProject({ login_userId }) {
 		let isMounted = true;
 
 		const fetchData = async () => {
-			if (userId) {
+			if (userId && login_userId) {
 				try {
 					const response = await getProject(`remember/user-by-id/${userId}`);
 					if (response.ok && isMounted) {
@@ -51,7 +51,7 @@ function ShowProject({ login_userId }) {
 		fetchData();
 
 		return () => { isMounted = false };
-	}, [userId, data]);
+	}, [userId, login_userId]);
 
 	useEffect(() => {
 		if(data){

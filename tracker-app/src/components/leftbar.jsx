@@ -89,9 +89,9 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel }){
 							</div>
 							{parallel ?
 							<div className="sm:flex md:flex hidden px-2 py-[10px] font-bold cursor-pointer">
-								<button className="flex">
+								<p className="flex">
 									Logout
-								</button>
+								</p>
 							</div>
 							:
 							<div className="h-14"></div>

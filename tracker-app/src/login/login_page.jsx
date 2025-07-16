@@ -64,10 +64,10 @@ function Login({ setSign }) {
 
 				<button
 					type="submit"
-					className="w-full bg-zinc-800 text-white py-2 rounded-lg hover:bg-zinc-900 transition-colors"
+					className="w-full bg-zinc-800 p-2 text-white rounded-lg hover:bg-zinc-900 transition-colors"
 					>
 					{loading ?
-						 <div className="flex justify-center items-center h-fit bg-white dark:bg-gray-900">
+						<div className="flex justify-center items-center">
 							<div className="w-6 h-6 border-4 border-white border-dashed rounded-full animate-spin"></div>
 						</div>
 						:

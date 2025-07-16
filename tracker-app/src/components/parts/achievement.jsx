@@ -9,14 +9,40 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
   
 
   return (
-    <div className="sm:p-2 mx-auto py-8">
-      <div className="text-center mt-4">
-        <h1 className="text-4xl font-bold text-gray-800">{showEdit ? 'Your\'s' : 'My'} Skills & Expertise</h1>
-        <p className="text-gray-600 max-w-2xl mx-auto">
+    <div className="mx-auto shadow-md p-2 mt-4 border border-zinc-200">
+      <div className="text-start p-4">
+        <h1 className="text-2xl font-bold text-gray-800">{showEdit ? 'Your\'s' : 'My'} Skills & Expertise</h1>
+        <p className="text-gray-600 mx-auto">
           Explore my technical capabilities and proficiency levels across various domains
         </p>
       </div>
       
+      <div className="mt-5 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div>
+          <p className="text-3xl font-bold text-indigo-600">{skill.length}</p>
+          <p className="text-gray-600">Total Skills</p>
+        </div>
+        <div>
+          <p className="text-3xl font-bold text-indigo-600">
+          {Math.max(...skill.map(s => s.level))}%
+          </p>
+          <p className="text-gray-600">Highest Proficiency</p>
+        </div>
+        <div>
+          <p className="text-3xl font-bold text-indigo-600">
+          {categories.length - 1}
+          </p>
+          <p className="text-gray-600">Categories</p>
+        </div>
+        <div>
+          <p className="text-3xl font-bold text-indigo-600">
+          {Math.round(skill.reduce((sum, s) => sum + s.level, 0) / skill.length)}%
+          </p>
+          <p className="text-gray-600">Average Proficiency</p>
+        </div>
+        </div>
+      </div>
       
       {/* Skills Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-4">

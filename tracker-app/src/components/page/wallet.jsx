@@ -57,7 +57,7 @@ function Wallet({ setOpen_skill, skill, setSkill, showEdit, userId }){
 						onClick={() => setRow(!row)}
 						>{!row ? 'Row' : 'Column'}</button>
 					</div>
-					<div className={`flex ${row ? 'sm:flex-row md:flex-row flex-col' : 'sm:flex-col md:flex-col flex-col'} justify-between gap-4 overflow-x-auto`}>
+					<div className={`flex ${row ? 'sm:flex-col md:flex-row flex-col' : 'sm:flex-col md:flex-col flex-col'} justify-between gap-4 overflow-x-auto`}>
 						
 						<div className={`w-full h-full flex ${row ? 'flex-col' : 'flex-row'} justify-between gap-2 order-1 md:order-2`}>
 							{showEdit &&
@@ -143,33 +143,7 @@ function Wallet({ setOpen_skill, skill, setSkill, showEdit, userId }){
 
 				{skill.length > 0 &&
 
-				<div className="p-2">
-					<div className="mt-5 bg-gradient-to-r from-indigo-50 to-purple-50 rounded-2xl p-6">
-						<div className="grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-						<div>
-							<p className="text-3xl font-bold text-indigo-600">{skill.length}</p>
-							<p className="text-gray-600">Total Skills</p>
-						</div>
-						<div>
-							<p className="text-3xl font-bold text-indigo-600">
-							{Math.max(...skill.map(s => s.level))}%
-							</p>
-							<p className="text-gray-600">Highest Proficiency</p>
-						</div>
-						<div>
-							<p className="text-3xl font-bold text-indigo-600">
-							{categories.length - 1}
-							</p>
-							<p className="text-gray-600">Categories</p>
-						</div>
-						<div>
-							<p className="text-3xl font-bold text-indigo-600">
-							{Math.round(skill.reduce((sum, s) => sum + s.level, 0) / skill.length)}%
-							</p>
-							<p className="text-gray-600">Average Proficiency</p>
-						</div>
-						</div>
-					</div>
+				<div className="">
 					<SkillsDashboard setOpen_skill={setOpen_skill} skill={skill} showEdit={showEdit} userId={userId}/>
 				</div>
 				}

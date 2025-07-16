@@ -22,7 +22,7 @@ const UserSchema = new mongoose.Schema({
     required: false
   },
   details: {
-    type: [String],
+    type: [mongoose.Schema.Types.Mixed],
     required: false,
     default: []
   },
