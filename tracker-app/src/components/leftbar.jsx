@@ -5,23 +5,23 @@ import skill_wallet from '../image/wallet.png';
 import project from '../image/project.png';
 import certificate from '../image/certificate.png';
 import logout from '../image/logout.png';
+import viewers from '../image/viewers.png';
 import { Logout } from './utils/saveProject';
 
-function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel }){
+function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, showEdit }){
 
 	const [bar, Setbar] = useState([{ name:'Profile', img: profile }, 
 		{name: 'Skills Wallet', img: skill_wallet }, 
 		{name: 'Projects', img: project }, 
 		{name:'Certificate', img: certificate },
+		showEdit && {name: 'Viewers', img: viewers }
 	]);
 
 	const handle_logout = async function(){
 		try{
 			const res = await Logout();
 			if (res.ok) {
-				window.location.reload(); // 🔄 refresh the page
-				// OR redirect:
-				// window.location.href = '/login';
+				window.location.reload();
 			} else {
 				console.error('Logout failed:', res.result);
 			}
@@ -75,7 +75,7 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel }){
 								</button>
 							</div>
 							:
-							<div className="h-14"> </div>
+							<div className="h-14"></div>
 							}
 						</div>
 					))}

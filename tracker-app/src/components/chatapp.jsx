@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Skill from './page/skills';
 import LeftBar from './leftbar';
@@ -10,6 +10,9 @@ import Showing from "./showing.jsx";
 import Edit_box from './edit/edit_box.jsx';
 import Preview from "./edit/preview";
 import { saveProject, getProject } from './utils/saveProject.jsx';
+import Viewers from "./viewers.jsx";
+
+const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 
 function ShowProject({ login_userId }) {
 	const { userId } = useParams();
@@ -29,6 +32,8 @@ function ShowProject({ login_userId }) {
 
 	const [showEdit, setShowEdit] = useState(true);
 
+	const startTimeRef = useRef(null); 
+
 	useEffect(() => {
 		let isMounted = true;
 
@@ -38,7 +43,13 @@ function ShowProject({ login_userId }) {
 					const response = await getProject(`remember/user-by-id/${userId}`);
 					if (response.ok && isMounted) {
 						setData(response.result.user);
-						if(login_userId !== userId) setShowEdit(false);
+						if(login_userId !== userId){
+							setShowEdit(false);
+							startTimeRef.current = Date.now();
+
+							// await getProject(`remember/another-user/${userId}`);
+						} 
+							
 					}
 				} catch (err) {
 					if (isMounted) console.error('Fetch error:', err);
@@ -50,7 +61,32 @@ function ShowProject({ login_userId }) {
 
 		fetchData();
 
-		return () => { isMounted = false };
+		const handleUnload = async () => {
+			if (startTimeRef.current && login_userId !== userId) {
+				const endTime = Date.now();
+				const seconds = Math.floor((endTime - startTimeRef.current) / 1000);
+				// const minutesWatched = Math.floor(seconds / 60);
+				console.log(seconds);
+				// console.log(minutesWatched);
+
+				if (seconds !== 0) {
+					await fetch(`${apiUrl}/remember/another-user/${userId}`, {
+						method: 'POST',
+						headers: { 'Content-Type': 'application/json' },
+						body: JSON.stringify({ minutesWatched: seconds }),
+						keepalive: true,
+						credentials: 'include'
+					});
+				}
+			}
+		};
+
+		window.addEventListener('beforeunload', handleUnload);
+		return () => {
+			isMounted = false;
+			handleUnload();
+			window.removeEventListener('beforeunload', handleUnload);
+		};
 	}, [userId, login_userId]);
 
 	useEffect(() => {
@@ -190,6 +226,7 @@ function ShowProject({ login_userId }) {
 					setCurrentPage={setCurrentPage}
 					parallel={parallel}
 					setParallel={setParallel}
+					showEdit={showEdit}
 				/>
 				</div>
 
@@ -223,6 +260,8 @@ function ShowProject({ login_userId }) {
 						showEdit={showEdit}
 						userId={id}
 						/>
+					) : currentPage === 'Viewers' && showEdit ? (
+						<Viewers/>
 					) : (
 						<div></div>
 					)}

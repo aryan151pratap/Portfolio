@@ -8,7 +8,7 @@ router.get('/user', auth, async (req, res) => {
 
 	if (!user) return res.status(404).json({ message: 'User not found'});
 
-	const { _id, username, email, image, bio, details } = user;
+	const { _id, username, email, image, bio, details, viewers } = user;
 
 	res.status(200).json({
 		user: {
@@ -17,7 +17,8 @@ router.get('/user', auth, async (req, res) => {
 			email,
 			image,
 			bio,
-			details
+			details,
+			viewers
 		}
 	});
 })
@@ -41,6 +42,72 @@ router.get('/user-by-id/:id', async (req, res) => {
 		}
 	});
 })
+
+router.post('/another-user/:id', auth, async (req, res) => {
+  try {
+    const viewerId = req.user.userId;
+    const targetUserId = req.params.id;
+    const { minutesWatched } = req.body;
+
+    if (viewerId === targetUserId) return res.sendStatus(204);
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const user = await User.findById(targetUserId);
+
+    const existingView = user.viewers.find(v =>
+      v.viewerId.toString() === viewerId &&
+      new Date(v.viewedAt).setHours(0, 0, 0, 0) === today.getTime()
+    );
+
+    if (existingView) {
+      await User.updateOne(
+        { _id: targetUserId, "viewers._id": existingView._id },
+        {
+          $inc: { "viewers.$.minutesWatched": minutesWatched },
+          $set: { "viewers.$.viewedAt": new Date() }
+        }
+      );
+    } else {
+      await User.findByIdAndUpdate(targetUserId, {
+        $push: {
+          viewers: {
+            viewerId,
+            minutesWatched,
+            viewedAt: new Date()
+          }
+        }
+      });
+    }
+
+    res.sendStatus(200);
+  } catch (err) {
+    console.error(err);
+    res.sendStatus(500);
+  }
+});
+
+
+router.get('/get-another-user', auth, async (req, res) => {
+	try{
+		const userId = req.user.userId;
+		const user  = await User.findById(userId)
+			.populate('viewers.viewerId', 'username email image')
+			.select('username email viewers');
+
+
+		if(!user){
+			res.status(400).json({ message: 'data not found' });
+		}
+		
+		res.status(200).json(user);
+
+	} catch(err) {
+		console.log(err);
+		res.status(500).json({ message: 'Server error' });
+	}
+});
 
 router.post('/save', auth, async (req, res) => {
 	try {
