@@ -33,7 +33,7 @@ function Preview({ preview_data, code, image }){
                 {code ? 
                 <div className="w-full flex flex-col gap-2">
                     {preview_data.map((i, index) => (
-                        <div className="">
+                        <div className="" key={index}>
                             {i.type === 'code' &&
                             <div className="relative md:px-4">
                                 <div className="absolute text-white sm:text-white/50 md:text-white/50 hover:text-white inset-0 left-auto w-fit h-fit md:px-4 p-1"
@@ -148,16 +148,16 @@ function Preview({ preview_data, code, image }){
                                 }
                             </div>
                         :
-                        i.type !== 'code' &&
-                        //  ?
-                        //     <div className="md:px-4">
-                        //         <p className={clsx(
-                        //             classNames(i), 
-                        //             "font-mono whitespace-pre-wrap rounded-lg overflow-x-auto"
-                        //         )}>{i.content}</p>
+                        i.type === 'code'
+                         ?
+                            <div className="md:px-4">
+                                <p className={clsx(
+                                    classNames(i), 
+                                    "font-mono whitespace-pre-wrap rounded-lg overflow-x-auto"
+                                )}>{i.content}</p>
                                 
-                        //     </div>
-                        // :
+                            </div>
+                        :
                             <div className={clsx(
                                 classNames(i), 
                                 "whitespace-pre-wrap rounded-lg overflow-x-auto"
