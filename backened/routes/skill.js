@@ -35,8 +35,20 @@ router.get('/get/:id', auth, async (req, res) => {
 	try {
 		const skills = await Wallet.find({ 
 			userId: req.params.id
-		});
+		}).select('level skill');
 		res.status(200).json({ skills, name: req.user.name });
+	} catch (err) {
+		console.error('Error fetching skills:', err);
+		res.status(500).json({ error: 'Failed to fetch skill data' });
+	}
+});
+
+router.get('/get-skill/:id/:skillId', auth, async (req, res) => {
+	try {
+		const skills = await Wallet.findOne({ 
+			userId: req.params.id, _id: req.params.skillId
+		});
+		res.status(200).json({ skills });
 	} catch (err) {
 		console.error('Error fetching skills:', err);
 		res.status(500).json({ error: 'Failed to fetch skill data' });

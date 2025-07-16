@@ -1,12 +1,25 @@
 import React, { useState } from "react";
+import { getProject } from "../utils/saveProject";
 
-export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
-  const [activeCategory, setActiveCategory] = useState("all");
-  
-  // Group skills by category for filtering
+
+export default function SkillsDashboard({ setOpen_skill, skill, showEdit, userId }) {
+  const [loading, setLoading] = useState(null);
   const categories = [...new Set(skill.map(item => item.category || "Other"))];
   categories.unshift("all");
   
+  const handleGetSkill = async function(item){
+    setLoading(item.skill);
+    try{
+      const res = await getProject(`wallet/get-skill/${userId}/${item._id}`)
+      if(res.ok){
+        setOpen_skill(res.result.skills);
+      }
+    } catch (err){
+      console.log(err);
+    } finally {
+      setLoading(null);
+    }
+  }
 
   return (
     <div className="mx-auto shadow-md p-2 mt-4 border border-zinc-200">
@@ -47,12 +60,12 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
       {/* Skills Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 mt-4">
         {skill.map((item, idx) => (
+          <div key={idx}>
           <div 
-            key={idx}
             className="bg-white shadow-lg border border-gray-100 overflow-hidden 
                       cursor-pointer transition-all duration-300 hover:shadow-xl hover:border-indigo-300 
                       p-6 flex flex-col"
-            onClick={() => setOpen_skill(item)}
+            onClick={() => handleGetSkill(item)}
           >
             <div className="flex items-start justify-between mb-4">
               <div className="flex items-center space-x-4">
@@ -86,6 +99,13 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit }) {
                 <span>Expert</span>
               </div>
             </div>
+          </div>
+
+          {loading === item.skill &&
+            <div className="w-full p-1 flex justify-center">
+              <div className="bg-white border-2 rounded-full border-blue-500 border-dashed h-5 w-5 animate-spin"></div>
+            </div>
+          }
           </div>
         ))}
       </div>

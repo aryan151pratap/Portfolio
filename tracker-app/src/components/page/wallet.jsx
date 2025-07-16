@@ -7,7 +7,6 @@ import { saveProject } from "../utils/saveProject.jsx";
 
 function Wallet({ setOpen_skill, skill, setSkill, showEdit, userId }){
 	const [row, setRow] = useState(true);
-
 	const [show_form, setshow_form] = useState(false);
 
 	const [form, setForm] = useState({
