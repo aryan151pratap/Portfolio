@@ -55,6 +55,9 @@ router.post('/another-user/:id', auth, async (req, res) => {
     const viewerId = req.user.userId;
     const targetUserId = req.params.id;
     const { minutesWatched } = req.body;
+	console.log('Received beacon:', minutesWatched);
+	console.log('User ID from token:', targetUserId);
+	console.log('user id from params', viewerId);
 
     if (viewerId === targetUserId) return res.sendStatus(204);
 
