@@ -68,7 +68,7 @@ const Viewers = () => {
           </div>
         ) : (
           <>
-            {/* Mobile View - Cards */}
+
             <div className="grid sm:hidden gap-4">
               {filteredViewers.length > 0 ? (
                 filteredViewers.map((viewer) => (
@@ -78,7 +78,7 @@ const Viewers = () => {
                         {viewer.viewerId?.image ? (
                           <img src={viewer.viewerId.image} alt="avatar" className="w-full h-full object-cover" />
                         ) : (
-                          <p className="text-[10px] text-white text-center p-1">no profile</p>
+                          <p className="text-[10px] text-white text-wrap text-center p-1">no profile</p>
                         )}
                       </div>
                       <div>
@@ -97,7 +97,7 @@ const Viewers = () => {
               )}
             </div>
 
-            {/* Desktop View - Table */}
+
             <div className="hidden sm:block w-full bg-white shadow-md rounded-lg overflow-hidden">
               <div className="w-full overflow-x-auto">
                 <table className="w-full bg-zinc-200 divide-y divide-gray-200">
