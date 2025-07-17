@@ -35,56 +35,66 @@ function ShowProject({ login_userId }) {
 	const startTimeRef = useRef(null); 
 
 	useEffect(() => {
+		if (!userId || !login_userId) return;
+
 		let isMounted = true;
+		let intervalId = null;
+		let secondsWatched = 0;
+		const sendInterval = 60;
+
+		const sendBeaconData = (seconds) => {
+			if (seconds > 0) {
+			const payload = JSON.stringify({ minutesWatched: seconds });
+			const url = `${apiUrl}/remember/another-user/${userId}`;
+			const blob = new Blob([payload], { type: "application/json" });
+			navigator.sendBeacon(url, blob);
+			}
+		};
 
 		const fetchData = async () => {
-			if (userId && login_userId) {
-				try {
-					const response = await getProject(`remember/user-by-id/${userId}`);
-					if (response.ok && isMounted) {
-						setData(response.result.user);
-						if(login_userId !== userId){
-							setShowEdit(false);
-							startTimeRef.current = Date.now();
+			try {
+			const response = await getProject(`remember/user-by-id/${userId}`);
+			if (response.ok && isMounted) {
+				setData(response.result.user);
 
-							// await getProject(`remember/another-user/${userId}`);
-						} 
-							
+				if (login_userId !== userId) {
+				setShowEdit(false);
+				startTimeRef.current = Date.now();
+
+				intervalId = setInterval(() => {
+					secondsWatched++;
+
+					if (secondsWatched % sendInterval === 0) {
+					sendBeaconData(sendInterval);
+					secondsWatched = 0; // reset after sending
 					}
-				} catch (err) {
-					if (isMounted) console.error('Fetch error:', err);
-				} finally {
-					if (isMounted) setLoading(false);
+				}, 1000);
 				}
+			}
+			} catch (err) {
+			if (isMounted) console.error("Fetch error:", err);
+			} finally {
+			if (isMounted) setLoading(false);
+			}
+		};
+
+		const handleUnload = () => {
+			if (login_userId !== userId && secondsWatched > 0) {
+			sendBeaconData(secondsWatched);
 			}
 		};
 
 		fetchData();
+		window.addEventListener("beforeunload", handleUnload);
 
-		const handleUnload = () => {
-			if (startTimeRef.current && login_userId !== userId) {
-				const endTime = Date.now();
-				const seconds = Math.floor((endTime - startTimeRef.current) / 1000);
-
-				if (seconds !== 0) {
-					const url = `${apiUrl}/remember/another-user/${userId}`;
-					const data = new Blob(
-						[JSON.stringify({ minutesWatched: seconds })],
-						{ type: 'application/json' }
-					);
-					navigator.sendBeacon(url, data);
-				}
-			}
-		};
-
-
-		window.addEventListener('beforeunload', handleUnload);
 		return () => {
 			isMounted = false;
+			clearInterval(intervalId);
 			handleUnload();
-			window.removeEventListener('beforeunload', handleUnload);
+			window.removeEventListener("beforeunload", handleUnload);
 		};
 	}, [userId, login_userId]);
+
 
 	useEffect(() => {
 		if(data){
