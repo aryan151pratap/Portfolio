@@ -42,51 +42,57 @@ router.get('/user-by-id/:id', async (req, res) => {
 	});
 })
 
-router.post('/another-user/:id', auth, async (req, res) => {
-  try {
-    const viewerId = req.user.userId;
-    const targetUserId = req.params.id;
-    const { minutesWatched } = req.body;
-	console.log(minutesWatched);
-
-    if (viewerId === targetUserId) return res.sendStatus(204);
-
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
-
-    const user = await User.findById(targetUserId);
-
-    const existingView = user.viewers.find(v =>
-      v.viewerId.toString() === viewerId &&
-      new Date(v.viewedAt).setHours(0, 0, 0, 0) === today.getTime()
-    );
-
-    if (existingView) {
-      await User.updateOne(
-        { _id: targetUserId, "viewers._id": existingView._id },
-        {
-          $inc: { "viewers.$.minutesWatched": minutesWatched },
-          $set: { "viewers.$.viewedAt": new Date() }
-        }
-      );
-    } else {
-      await User.findByIdAndUpdate(targetUserId, {
-        $push: {
-          viewers: {
-            viewerId,
-            minutesWatched,
-            viewedAt: new Date()
-          }
-        }
-      });
-    }
-
-    res.sendStatus(200);
-  } catch (err) {
-    console.error(err);
-    res.sendStatus(500);
-  }
+router.post('/another-user/:id', async (req, res) => {
+  console.log('Received beacon:', req.body);
+  res.sendStatus(200);
 });
+
+
+// router.post('/another-user/:id', auth, async (req, res) => {
+//   try {
+//     const viewerId = req.user.userId;
+//     const targetUserId = req.params.id;
+//     const { minutesWatched } = req.body;
+// 	console.log(minutesWatched);
+
+//     if (viewerId === targetUserId) return res.sendStatus(204);
+
+//     const today = new Date();
+//     today.setHours(0, 0, 0, 0);
+
+//     const user = await User.findById(targetUserId);
+
+//     const existingView = user.viewers.find(v =>
+//       v.viewerId.toString() === viewerId &&
+//       new Date(v.viewedAt).setHours(0, 0, 0, 0) === today.getTime()
+//     );
+
+//     if (existingView) {
+//       await User.updateOne(
+//         { _id: targetUserId, "viewers._id": existingView._id },
+//         {
+//           $inc: { "viewers.$.minutesWatched": minutesWatched },
+//           $set: { "viewers.$.viewedAt": new Date() }
+//         }
+//       );
+//     } else {
+//       await User.findByIdAndUpdate(targetUserId, {
+//         $push: {
+//           viewers: {
+//             viewerId,
+//             minutesWatched,
+//             viewedAt: new Date()
+//           }
+//         }
+//       });
+//     }
+
+//     res.sendStatus(200);
+//   } catch (err) {
+//     console.error(err);
+//     res.sendStatus(500);
+//   }
+// });
 
 
 router.get('/get-another-user', auth, async (req, res) => {

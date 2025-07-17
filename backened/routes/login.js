@@ -9,7 +9,6 @@ const handle_cookies = function(user, res){
   const JWT_SECRET = process.env.JWT_SECRET;
 
   const token = jwt.sign({ userId: user._id, email: user.email }, JWT_SECRET, { expiresIn: '1d' });
-  console.log(token);
   return res.cookie('token', token, {
     httpOnly: true,
     sameSite: process.env.NODE_ENV === 'production' ? 'None' : 'Lax',
