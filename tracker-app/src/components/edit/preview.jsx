@@ -12,7 +12,7 @@ function Preview({ preview_data, code, image }){
           `px-${el.padding_x}`,
           `py-${el.padding_y}`,
           `text-[${el.size}px]`,
-          `w-${el.width}`,
+          `sm:w-${el.width}`,
           `font-[${el.bold}]`,
           {
             'rounded-none': el.borderRadius === 'none',
@@ -29,30 +29,32 @@ function Preview({ preview_data, code, image }){
         <>
         <div className="w-full flex flex-col p-2 sm:p-4 md:p-4">
             {preview_data.length !== 0 &&
-            <div>
+            <div className="w-full">
                 {code ? 
-                <div className="w-full flex flex-col gap-2">
-                    {preview_data.map((i, index) => (
-                        <div className="" key={index}>
-                            {i.type === 'code' &&
-                            <div className="relative md:px-4">
-                                <div className="absolute text-white sm:text-white/50 md:text-white/50 hover:text-white inset-0 left-auto w-fit h-fit md:px-4 p-1"
-                                    onClick={() => setShow_code(i)}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" className=" h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
-                                    </svg>
+                <div className="w-full">
+                    <div className="w-full flex flex-col">
+                        {preview_data.map((i, index) => (
+                            <div className='' key={index}>
+                                {i.type === 'code' &&
+                                <div className="relative mt-2">
+                                    <div className="absolute text-white sm:text-white/50 md:text-white/50 hover:text-white inset-0 left-auto w-fit h-fit md:px-4 p-1"
+                                        onClick={() => setShow_code(i)}
+                                    >
+                                        <svg xmlns="http://www.w3.org/2000/svg" className=" h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4h4M20 8V4h-4M4 16v4h4M20 16v4h-4" />
+                                        </svg>
+                                    </div>
+                                    <pre className={clsx(
+                                        classNames(i), 
+                                        "font-mono whitespace-pre-wrap rounded-lg"
+                                    )}>
+                                        {i.content}
+                                    </pre>
                                 </div>
-                                <p className={clsx(
-                                    classNames(i), 
-                                    "font-mono whitespace-pre-wrap rounded-lg"
-                                )}>
-                                    {i.content}
-                                </p>
+                                }
                             </div>
-                            }
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                     {show_code &&
                     <div className="fixed z-20 inset-0 p-1 sm:p-4 md:p-10 bg-white/40 items-center flex justify-center backdrop-blur">
                         <button
@@ -74,12 +76,12 @@ function Preview({ preview_data, code, image }){
                 image ?
                 <div>
                     {preview_data.map((i, index) => (
-                        <div className="flex flex-col gap-2">
+                        <div key={index} className="flex flex-col gap-2">
                             {i.type === 'image' &&
-                            <div className="p-2 md:p-5 md:max-h-[900px] w-full flex justify-center items-center">
+                            <div className="p-2 md:p-5 flex justify-center items-center">
                                 <img src={i.content} alt="" className={clsx(
                                     classNames(i), 
-                                    "h-full md:w-[80%] object-cover whitespace-pre-wrap rounded-lg overflow-x-auto"
+                                    "h-full w-[80%] object-cover whitespace-pre-wrap rounded-lg overflow-x-auto"
                                 )}
                                 onClick={() => setShow_img(i.content)}
                                 />
@@ -123,10 +125,10 @@ function Preview({ preview_data, code, image }){
                         </div>
                         :
                         i.type === 'image' ?
-                            <div className="md:p-5 md:max-h-[900px] w-full flex justify-center items-center">
+                            <div className="md:p-5 flex justify-center items-center">
                                 <img src={i.content} alt="" className={clsx(
                                     classNames(i), 
-                                    "h-full md:w-[80%] object-cover whitespace-pre-wrap rounded-lg overflow-x-auto"
+                                    "h-full w-[80%] object-cover whitespace-pre-wrap rounded-lg overflow-x-auto"
                                 )}
                                 onClick={() => setShow_img(i.content)}
                                 />

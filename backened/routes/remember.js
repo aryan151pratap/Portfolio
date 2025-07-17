@@ -8,7 +8,7 @@ router.get('/user', auth, async (req, res) => {
 
 	if (!user) return res.status(404).json({ message: 'User not found'});
 
-	const { _id, username, email, image, bio, details, viewers } = user;
+	const { _id, username, email, image, bio, details } = user;
 
 	res.status(200).json({
 		user: {
@@ -17,8 +17,7 @@ router.get('/user', auth, async (req, res) => {
 			email,
 			image,
 			bio,
-			details,
-			viewers
+			details
 		}
 	});
 })

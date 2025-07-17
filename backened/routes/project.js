@@ -5,7 +5,6 @@ const auth = require('../middleware/authentication.js');
 
 router.post('/save', auth, async (req, res) => {
   const { name, url, content } = req.body;
-  console.log(req.body);
   if (!name || !Array.isArray(content)) {
     return res.status(400).json({ error: 'All fields are required' });
   }
@@ -35,7 +34,7 @@ router.get('/project/:id', auth, async (req, res) => {
   try {
     const projects = await Project.find(
       { userId: req.params.id },
-      'name url' // Only include 'name' and 'url'
+      'name url'
     ).sort({ createdAt: -1 });
 
     res.status(200).json({ projects });

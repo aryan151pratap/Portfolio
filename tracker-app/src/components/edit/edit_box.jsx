@@ -77,7 +77,7 @@ export default function EditBox({ setPreview_data, preview_data }) {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-50 to-purple-100 md:p-4">
-      <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-lg overflow-hidden">
+      <div className="max-w-4xl mx-auto bg-white sm:rounded-xl shadow-lg overflow-hidden">
         <div className="bg-gradient-to-r from-indigo-200 to-purple-200 p-6 text-indigo-900">
           <h1 className="text-3xl font-bold">Page Builder Studio</h1>
           <p className="text-indigo-600">Create and customize content elements</p>

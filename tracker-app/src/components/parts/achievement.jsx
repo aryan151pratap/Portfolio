@@ -99,13 +99,13 @@ export default function SkillsDashboard({ setOpen_skill, skill, showEdit, userId
                 <span>Expert</span>
               </div>
             </div>
+            {loading === item.skill &&
+              <div>
+                <div className="w-full h-1 bg-gradient-to-r from-blue-500 via-white to-blue-500 bg-[length:200%_100%] animate-shimmer" />
+              </div>
+            }
           </div>
 
-          {loading === item.skill &&
-            <div className="w-full p-1 flex justify-center">
-              <div className="bg-white border-2 rounded-full border-blue-500 border-dashed h-5 w-5 animate-spin"></div>
-            </div>
-          }
           </div>
         ))}
       </div>
