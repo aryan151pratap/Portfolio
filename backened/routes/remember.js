@@ -47,6 +47,7 @@ router.post('/another-user/:id', auth, async (req, res) => {
     const viewerId = req.user.userId;
     const targetUserId = req.params.id;
     const { minutesWatched } = req.body;
+	console.log(minutesWatched);
 
     if (viewerId === targetUserId) return res.sendStatus(204);
 

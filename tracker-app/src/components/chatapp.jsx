@@ -61,25 +61,22 @@ function ShowProject({ login_userId }) {
 
 		fetchData();
 
-		const handleUnload = async () => {
+		const handleUnload = () => {
 			if (startTimeRef.current && login_userId !== userId) {
 				const endTime = Date.now();
 				const seconds = Math.floor((endTime - startTimeRef.current) / 1000);
-				// const minutesWatched = Math.floor(seconds / 60);
-				console.log(seconds);
-				// console.log(minutesWatched);
 
 				if (seconds !== 0) {
-					await fetch(`${apiUrl}/remember/another-user/${userId}`, {
-						method: 'POST',
-						headers: { 'Content-Type': 'application/json' },
-						body: JSON.stringify({ minutesWatched: seconds }),
-						keepalive: true,
-						credentials: 'include'
-					});
+					const url = `${apiUrl}/remember/another-user/${userId}`;
+					const data = new Blob(
+						[JSON.stringify({ minutesWatched: seconds })],
+						{ type: 'application/json' }
+					);
+					navigator.sendBeacon(url, data);
 				}
 			}
 		};
+
 
 		window.addEventListener('beforeunload', handleUnload);
 		return () => {
@@ -129,16 +126,16 @@ function ShowProject({ login_userId }) {
 
 	useEffect(() => {
 		const check_auth = async () => {
-		try {
-			if(id){
-				const response = await getProject(`wallet/get/${id}`);
-				if (response.ok) {
-					setSkill(response.result.skills);
+			try {
+				if(id){
+					const response = await getProject(`wallet/get/${id}`);
+					if (response.ok) {
+						setSkill(response.result.skills);
+					}
 				}
+			} catch (error) {
+				console.error('Error:', error);
 			}
-		} catch (error) {
-			console.error('Error:', error);
-		}
 		};
 
 		check_auth();
