@@ -32,7 +32,7 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, sh
 
 	return(
 		<>
-		<div className={`sm:min-h-screen md:min-h-screen flex shrink-0 ${!parallel ? 'sm:w-fit md:w-fit w-full' : 'w-full sm:w-[250px] md:w-[250px]'} bg-${color}-500 shadow-xl bg-white`}>
+		<div className={`sm:min-h-screen md:min-h-screen flex shrink-0 ${!parallel ? 'sm:w-fit md:w-fit w-full' : 'w-full sm:w-[250px] md:w-[250px]'} bg-${color}-500 shadow-sm bg-white`}>
 		<div className="w-full flex sm:flex-col md:flex-col flex-row">
 			<div className={`${parallel ? "sm:w-fit md:w-fit w-full items-center" : ""} sm:justify-end md:justify-end flex p-2`}>				
 				<div className="w-6 flex flex-col gap-1 cursor-pointer"

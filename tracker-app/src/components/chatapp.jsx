@@ -53,34 +53,34 @@ function ShowProject({ login_userId }) {
 
 		const fetchData = async () => {
 			try {
-			const response = await getProject(`remember/user-by-id/${userId}`);
-			if (response.ok && isMounted) {
-				setData(response.result.user);
+				const response = await getProject(`remember/user-by-id/${userId}`);
+				if (response.ok && isMounted) {
+					setData(response.result.user);
 
-				if (login_userId !== userId) {
-				setShowEdit(false);
-				startTimeRef.current = Date.now();
+					if (login_userId !== userId) {
+						setShowEdit(false);
+						startTimeRef.current = Date.now();
 
-				intervalId = setInterval(() => {
-					secondsWatched++;
+						intervalId = setInterval(() => {
+							secondsWatched++;
 
-					if (secondsWatched % sendInterval === 0) {
-					sendBeaconData(sendInterval);
-					secondsWatched = 0; // reset after sending
+							if (secondsWatched % sendInterval === 0) {
+								sendBeaconData(sendInterval);
+								secondsWatched = 0;
+							}
+						}, 1000);
 					}
-				}, 1000);
 				}
-			}
 			} catch (err) {
-			if (isMounted) console.error("Fetch error:", err);
+				if (isMounted) console.error("Fetch error:", err);
 			} finally {
-			if (isMounted) setLoading(false);
+				if (isMounted) setLoading(false);
 			}
 		};
 
 		const handleUnload = () => {
 			if (login_userId !== userId && secondsWatched > 0) {
-			sendBeaconData(secondsWatched);
+				sendBeaconData(secondsWatched);
 			}
 		};
 
