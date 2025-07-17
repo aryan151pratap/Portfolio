@@ -78,7 +78,7 @@ const Viewers = () => {
                         {viewer.viewerId?.image ? (
                           <img src={viewer.viewerId.image} alt="avatar" className="w-full h-full object-cover" />
                         ) : (
-                          <p className="text-[10px] text-white text-wrap text-center p-1">no profile</p>
+                          <p className="text-wrap text-center text-[10px] text-white p-1">no profile</p>
                         )}
                       </div>
                       <div>
@@ -120,7 +120,7 @@ const Viewers = () => {
                                 {viewer.viewerId?.image ? (
                                   <img src={viewer.viewerId?.image} alt="avatar" className="object-cover w-full h-full" />
                                 ) : (
-                                  <p className="text-[10px] p-[2px] text-center text-white">no profile</p>
+                                  <p className="text-wrap text-[10px] p-[2px] text-center text-white">no profile</p>
                                 )}
                               </div>
                               <div className="ml-4">
