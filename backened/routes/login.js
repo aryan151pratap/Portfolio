@@ -25,7 +25,6 @@ router.post('/sign_up', async (req, res) => {
     if (!username || !email || !password) {
       return res.status(400).json({ message: 'Missing fields' });
     }
-	  console.log(req.body);
 
     const existingUser = await User.findOne({ email });
 
@@ -54,7 +53,6 @@ router.post('/login', async (req, res) => {
     if (!email || !password) {
       return res.status(400).json({ message: 'Missing fields' });
     }
-	  console.log(req.body);
 
     const existingUser = await User.findOne({ email });
 
