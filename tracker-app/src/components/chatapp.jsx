@@ -11,6 +11,7 @@ import Edit_box from './edit/edit_box.jsx';
 import Preview from "./edit/preview";
 import { saveProject, getProject } from './utils/saveProject.jsx';
 import Viewers from "./viewers.jsx";
+import Audio from "./audio.jsx";
 
 const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 
@@ -19,6 +20,9 @@ function ShowProject({ login_userId }) {
 	const [ id, setId] = useState(null);
 	const [data, setData] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [currentTime, setCurrentTime] = useState(0);
+  	const [duration, setDuration] = useState(0);
+	
 
 	const color = 'white';
 	const [currentPage, setCurrentPage] = useState('Profile');
@@ -171,8 +175,19 @@ function ShowProject({ login_userId }) {
 		);
 	}
 
+	
+
 	return (
-		<div className={`w-full min-h-screen bg-${color}-800`}>
+		<div className={`relative w-full min-h-screen bg-${color}-800`}>
+		    <div className="absolute inset-0 z-50 rounded-full h-fit">
+				<Audio userId={userId}
+				duration={duration} 
+				setDuration={setDuration}
+				currentTime={currentTime} 
+				setCurrentTime={setCurrentTime}
+				/>
+    		</div>
+
 		{publish ? (
 			<div className="bg-white rounded-xl shadow-md sm:p-2 md:p-6">
 			<div className="mb-4 flex items-center justify-between">
@@ -237,45 +252,48 @@ function ShowProject({ login_userId }) {
 				/>
 				</div>
 
-				<div className="w-full min-h-screen flex justify-center overflow-x-auto">
-				<div className="w-full flex flex-col items-center">
-					<div className={`w-full flex ${!parallel && 'md:w-[80%]'}`}>
-					{currentPage === 'Profile' ? (
-						<Skill color={color} 
-							skill_data={skill} 
-							data={data} 
+				<div className="w-full min-h-screen flex flex-col overflow-x-auto">
+					<div className="h-full w-full flex flex-col items-center">
+						<div className={`w-full flex ${!parallel && 'md:w-[80%]'}`}>
+						{currentPage === 'Profile' ? (
+							<Skill color={color} 
+								skill_data={skill} 
+								data={data} 
+								showEdit={showEdit}
+								userId={id}
+							/>
+						) : currentPage === 'Skills Wallet' ? (
+							<Wallet
+							skill={skill}
+							setSkill={setSkill}
+							setOpen_skill={setOpen_skill}
 							showEdit={showEdit}
 							userId={id}
-						/>
-					) : currentPage === 'Skills Wallet' ? (
-						<Wallet
-						skill={skill}
-						setSkill={setSkill}
-						setOpen_skill={setOpen_skill}
-						showEdit={showEdit}
-						userId={id}
-						/>
-					) : currentPage === 'Projects' ? (
-						<Project
-						setPublish={setPublish}
-						setOpen_skill={setOpen_skill}
-						showEdit={showEdit}
-						userId={id}
-						/>
-					) : currentPage === 'Certificate' ? (
-						<Certificate 
-						showEdit={showEdit}
-						userId={id}
-						/>
-					) : currentPage === 'Viewers' && showEdit ? (
-						<Viewers/>
-					) : (
-						<div></div>
-					)}
+							/>
+						) : currentPage === 'Projects' ? (
+							<Project
+							setPublish={setPublish}
+							setOpen_skill={setOpen_skill}
+							showEdit={showEdit}
+							userId={id}
+							/>
+						) : currentPage === 'Certificate' ? (
+							<Certificate 
+							showEdit={showEdit}
+							userId={id}
+							/>
+						) : currentPage === 'Viewers' && showEdit ? (
+							<Viewers/>
+						) : (
+							<div></div>
+						)}
+						</div>
+					</div>
+					<div className="mb-20">				
 					</div>
 				</div>
-				</div>
 			</div>
+
 			{currentPage === 'Profile' &&
 			<Footer data={data} />
 			}

@@ -87,7 +87,7 @@ function Footer({ data }) {
                 </svg>
                 <div>
                   <p className="font-medium text-gray-100">Phone</p>
-                  <a href="tel:+1234567890" className="text-gray-400 hover:text-blue-400 transition-colors">+91-6398249125</a>
+                  <a href="tel:+1234567890" className="text-gray-400 hover:text-blue-400 transition-colors">+91-xxxxxxx125</a>
                 </div>
               </li>
               <li className="flex items-start">

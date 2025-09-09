@@ -7,6 +7,8 @@ const Remember = require('./routes/remember.js');
 const Project = require('./routes/project.js');
 const Certificate = require('./routes/certificate_save.js');
 const Wallet = require('./routes/skill.js');
+const Mail = require('./routes/email.js');
+const audio = require('./routes/audio.js');
 
 const path = require('path');
 require('dotenv').config({ path: path.resolve(__dirname, '.env') });
@@ -17,7 +19,7 @@ const FRONTEND_URL = process.env.FRONTEND_URL || 'http://localhost:5173';
 const app = express();
 
 connectDB();
-
+console.log(FRONTEND_URL);
 
 app.use(cors({
   origin: FRONTEND_URL,
@@ -37,6 +39,8 @@ app.use('/remember', Remember);
 app.use('/projects', Project);
 app.use('/certificate', Certificate);
 app.use('/wallet', Wallet);
+app.use('/password', Mail);
+app.use('/audio', audio);
 
 
 

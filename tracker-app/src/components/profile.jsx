@@ -3,6 +3,7 @@ import Add_image from './add_image';
 import Animation from "./animation/animation";
 import Bubble from "./animation/bubble";
 import { saveProject } from './utils/saveProject';
+import AddAudio from "./add_audio";
 
 function Profile({ color, data, showEdit }) {
 	const [form, setForm] = useState({ bio: '', details: [] });
@@ -86,6 +87,7 @@ function Profile({ color, data, showEdit }) {
 						</div>
 					</div>
 				</div>
+				
 
 				<div className="flex pt-30 pt-1 w-full md:w-3/4 px-4">
 					<div className="flex flex-col w-full">
@@ -115,10 +117,16 @@ function Profile({ color, data, showEdit }) {
 										</svg>
 									</span>
 								}
+								
 							</div>
 						)}
 					</div>
 				</div>
+				{showEdit &&
+				<div>
+					<AddAudio/>
+				</div>
+				}
 			</div>
 
 			<div className="text-start grid grid-cols-1 md:grid-cols-2 gap-4 px-4">

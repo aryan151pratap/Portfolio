@@ -19,7 +19,7 @@ function Showing({ open_skill, setOpen_skill, setPreview_data, setPublish, route
 	}
 
   return(
-	<div className="fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center sm:p-1 bg-white">
+	<div className="fixed inset-0 z-20 bg-black/70 backdrop-blur-sm flex flex-col items-center justify-center sm:p-1 bg-white">
 		<div className="w-full bg-white sm:rounded-lg shadow-2xl overflow-hidden flex flex-col h-screen">
 			{/* Header */}
 			<div className="flex flex-row justify-between items-start sm:items-center bg-gradient-to-r from-gray-800 to-gray-900 p-2 gap-3">

@@ -3,10 +3,11 @@ import Profile from '../profile';
 import Skill_img from '../../image/skill.png';
 import target from '../../image/target.png';
 import Skill_Chart from "../parts/skillchart";
+import AddAudio from "../add_audio";
 
 function Skill({ color, skill_data, data, showEdit, userId }) {
   const [box, setBox] = useState([{name: 'Skill', img: Skill_img},
-    {name: 'Target', img: target}
+    {name: 'Music', img: target}
   ])
 
   
@@ -26,8 +27,21 @@ function Skill({ color, skill_data, data, showEdit, userId }) {
                 <img src={i.img} alt="" className="h-6 w-6 object-cover"/>
               </div>
               <div>
-              {i.name === 'Skill' &&
+              {i.name === 'Skill' ?
                 <Skill_Chart skill={skill_data} row={false} showEdit={showEdit} userId={userId}/>
+                :
+                <div className="p-4">
+                  {showEdit ? 
+                    <div className="flex flex-col gap-3">
+                      <p className="text-lg px-4">Add Your Favourite Music</p>
+                      <AddAudio/>
+                    </div>
+                    :
+                    <div>
+                      <p className="text-lg px-4">Play the music</p>
+                    </div>
+                  }
+                </div>
               }
               </div>
             </div>

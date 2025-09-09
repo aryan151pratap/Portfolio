@@ -31,6 +31,11 @@ const UserSchema = new mongoose.Schema({
     type: String,
     default: ''
   },
+  music:{
+    name: String,
+    data: String,
+    contentType: String,
+  },
   viewers: [
     {
       viewerId: {

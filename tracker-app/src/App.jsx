@@ -11,6 +11,8 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
   const [data, setData] = useState(null);
+  const [password, setPassword] = useState(true);
+
 
   useEffect(() => {
     const check_auth = async () => {
@@ -51,7 +53,10 @@ function App() {
     <Router>
       <Routes>
         {sign ? (
-          <Route path="*" element={<Signup setSign={setSign} />} />
+          <>
+          <Route path="/reset-password" element={<Signup setSign={setSign} setPassword={setPassword} password={false}/>} />
+          <Route path="*" element={<Signup setSign={setSign} setPassword={setPassword} password={true}/>} />
+          </>
         ) : (
           <>
             {/* Main profile route */}

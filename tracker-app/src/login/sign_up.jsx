@@ -3,10 +3,14 @@ import Login from './login_page';
 import Bubble from '../components/animation/bubble';
 import Logo from '../components/logo/logo';
 import PasswordInput from './pass';
+import RequestReset from './mail_sender';
+import { useNavigate } from "react-router-dom";
+
 
 const apiUrl = import.meta.env.VITE_BACKEND_ADD;
 
-function Signup({ setSign }) {
+function Signup({ setSign, setPassword, password }) {
+  const navigate = useNavigate();
   const [login, setLogin] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -19,6 +23,10 @@ function Signup({ setSign }) {
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  useEffect(() => {
+    console.log(password);
+  }, [password])
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -57,6 +65,7 @@ function Signup({ setSign }) {
         <Bubble/>
       </div>
       
+    {password ?
     <div className="bg-white rounded-md shadow-lg p-8 w-full max-w-md">
     <div className='flex flex-row items-center mb-5'>
       <Logo/>
@@ -132,8 +141,19 @@ function Signup({ setSign }) {
               {login ? 'Sign_up' : 'Login'}
             </button>
           </div>
+          <button className='text-sm ml-auto text-blue-500 hover:underline cursor-pointer'
+            onClick={() => {
+              setPassword(false);
+              navigate("/reset-password");
+            }}
+          >
+            Forgot password
+          </button>
         </div>
       </div>
+      :
+      <RequestReset setPassword={setPassword}/>
+      }
     </div>
     </>
   );

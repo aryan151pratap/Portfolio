@@ -88,7 +88,7 @@ function Project({ setPublish, setOpen_skill, showEdit, userId }) {
 
   
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 p-4 md:p-6">
+    <div className="w-full min-h-screen p-4 md:p-6">
       <div className="max-w-full mx-auto">
 
         <div>
