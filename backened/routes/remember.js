@@ -5,7 +5,7 @@ const auth = require('../middleware/authentication.js');
 
 router.get('/user', auth, async (req, res) => {
 	const user = await User.findOne({ email: req.user.email }).select('-password');
-
+	console.log(user);
 	if (!user) return res.status(404).json({ message: 'User not found'});
 
 	const { _id, username, email, image, bio, details } = user;
