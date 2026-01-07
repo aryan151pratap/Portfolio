@@ -10,7 +10,7 @@ function App() {
   const [sign, setSign] = useState(true);
   const [loading, setLoading] = useState(true);
   const [userId, setUserId] = useState(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState();
   const [password, setPassword] = useState(true);
 
 
@@ -54,6 +54,7 @@ function App() {
       <Routes>
         {sign ? (
           <>
+          <Route path="/profile/:userId" element={<ShowProject login_userId={userId} data={data}/>} />
           <Route path="/reset-password" element={<Signup setSign={setSign} setPassword={setPassword} password={false}/>} />
           <Route path="*" element={<Signup setSign={setSign} setPassword={setPassword} password={true}/>} />
           </>

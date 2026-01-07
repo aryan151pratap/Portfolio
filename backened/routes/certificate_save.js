@@ -63,7 +63,7 @@ router.post('/save', auth, async (req, res) => {
 });
 
 
-router.get('/get/:id/:offset', auth, async (req, res) => {
+router.get('/get/:id/:offset', async (req, res) => {
 	try {
 		const offset = parseInt(req.params.offset) || 0; // offset means how many items to skip
 		const limit = 10;

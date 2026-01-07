@@ -31,12 +31,13 @@ router.post('/save', auth, async (req, res) => {
 });
 
 
-router.get('/get/:id', auth, async (req, res) => {
+router.get('/get/:id', async (req, res) => {
 	try {
 		const skills = await Wallet.find({ 
 			userId: req.params.id
 		}).select('level skill');
-		res.status(200).json({ skills, name: req.user.name });
+		console.log(skills);
+		res.status(200).json({ skills });
 	} catch (err) {
 		console.error('Error fetching skills:', err);
 		res.status(500).json({ error: 'Failed to fetch skill data' });
@@ -73,7 +74,7 @@ router.delete('/delete/:id', auth, async (req, res) => {
 	}
 })
 
-router.post('/current_graph', auth, async (req, res) =>{
+router.post('/current_graph', async (req, res) =>{
 	try{
 		const { current_graph } = req.body;
 		console.log(current_graph);
@@ -97,7 +98,7 @@ router.post('/current_graph', auth, async (req, res) =>{
 	}
 })
 
-router.get('/get_graph/:id', auth, async (req, res) =>{
+router.get('/get_graph/:id', async (req, res) =>{
 	try{
 		const user = await User.findOne(
 			{ _id: req.params.id }

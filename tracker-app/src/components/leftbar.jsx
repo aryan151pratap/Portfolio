@@ -7,14 +7,16 @@ import certificate from '../image/certificate.png';
 import logout from '../image/logout.png';
 import viewers from '../image/viewers.png';
 import { Logout } from './utils/saveProject';
+import { useNavigate } from "react-router-dom";
 
-function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, showEdit }){
+function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, showEdit, login_userId }){
+	const navigate = useNavigate();
 
 	const [bar, Setbar] = useState([{ name:'Profile', img: profile }, 
 		{name: 'Skills Wallet', img: skill_wallet }, 
 		{name: 'Projects', img: project }, 
 		{name:'Certificate', img: certificate },
-		showEdit && {name: 'Viewers', img: viewers }
+		{name: 'Viewers', img: viewers }
 	]);
 
 	const handle_logout = async function(){
@@ -27,6 +29,12 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, sh
 			}
 		} catch(err) {
 			console.log(err);
+		}
+	}
+
+	const handle_signin = function(){
+		if(!login_userId){
+			navigate("/login");
 		}
 	}
 
@@ -55,7 +63,7 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, sh
 					{bar.map((i, index) => (
 						<div
 							key={index}
-							className={`w-full hover:bg-zinc-400 hover:inset-shadow-sm hover:inset-shadow-zinc-800 flex sm:justify-start md:justify-start justify-center hover:text-white ${
+							className={`${!showEdit && i.name == "Viewers" && "hidden"} w-full hover:bg-zinc-400 hover:inset-shadow-sm hover:inset-shadow-zinc-800 flex sm:justify-start md:justify-start justify-center hover:text-white ${
 								i.name === currentPage
 								? "bg-blue-100 hover:border-zinc-900"
 								: ""
@@ -80,6 +88,7 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, sh
 						</div>
 					))}
 					</div>
+					{login_userId ?
 					<div className="mt-auto mb-2">
 						<button className={`text-red-600 hover:text-red-800 flex flex-row justify-center items-center cursor-pointer`} title="Logout"
 						onClick={handle_logout}
@@ -98,6 +107,23 @@ function LeftBar({ color, currentPage, setCurrentPage, parallel, setParallel, sh
 							}
 						</button>
 					</div>
+					:
+					<div className="mt-auto mb-2">
+						<button className={`text-red-600 hover:text-red-800 flex flex-row justify-center items-center cursor-pointer`} title="Create Account"
+							onClick={handle_signin}
+						>
+							{parallel ?
+							<div className="sm:flex md:flex hidden px-2 py-[10px] font-bold cursor-pointer">
+								<p className="flex">
+									Create Account
+								</p>
+							</div>
+							:
+							<div className="h-14 flex items-center justify-center">A</div>
+							}
+						</button>
+					</div>
+					}
 				</div>
 			</div>
 		</div>

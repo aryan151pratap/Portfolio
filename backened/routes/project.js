@@ -30,7 +30,7 @@ router.post('/save', auth, async (req, res) => {
   }
 });
 
-router.get('/project/:id', auth, async (req, res) => {
+router.get('/project/:id', async (req, res) => {
   try {
     const projects = await Project.find(
       { userId: req.params.id },
@@ -44,7 +44,7 @@ router.get('/project/:id', auth, async (req, res) => {
   }
 });
 
-router.post('/current-project/:id', auth, async (req, res) => {
+router.post('/current-project/:id', async (req, res) => {
   try {
     const { name } = req.body;
     const project = await Project.findOne({ userId: req.params.id , name});

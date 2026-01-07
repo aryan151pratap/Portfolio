@@ -39,7 +39,7 @@ function ShowProject({ login_userId }) {
 	const startTimeRef = useRef(null); 
 
 	useEffect(() => {
-		if (!userId || !login_userId) return;
+		if (!userId) return;
 
 		let isMounted = true;
 		let intervalId = null;
@@ -47,11 +47,11 @@ function ShowProject({ login_userId }) {
 		const sendInterval = 60;
 
 		const sendBeaconData = (seconds) => {
-			if (seconds > 0) {
-			const payload = JSON.stringify({ minutesWatched: seconds });
-			const url = `${apiUrl}/remember/another-user/${userId}`;
-			const blob = new Blob([payload], { type: "application/json" });
-			navigator.sendBeacon(url, blob);
+			if (seconds > 0 && userId) {
+				const payload = JSON.stringify({ minutesWatched: seconds });
+				const url = `${apiUrl}/remember/another-user/${userId}`;
+				const blob = new Blob([payload], { type: "application/json" });
+				navigator.sendBeacon(url, blob);
 			}
 		};
 
@@ -249,6 +249,7 @@ function ShowProject({ login_userId }) {
 					parallel={parallel}
 					setParallel={setParallel}
 					showEdit={showEdit}
+					login_userId={login_userId}
 				/>
 				</div>
 
